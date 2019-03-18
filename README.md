@@ -5,6 +5,7 @@ Easiest way to explore the [Silkroad](http://www.joymax.com/silkroad/) world map
 - Search locations using coordinates
 - Find the location of NPC's
 - Teleport actions included
+- Works on mobile devices
 
 > Looking for a [DEMO](http://JellyBitz.github.io/Silkroad-Map-Viewer)... ?
 

@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 header{
-	height: 50px;
 	color: #fff;
 	background-color: #000;
 	border-bottom: 2px solid #00beff;
@@ -12,29 +11,58 @@ header .content{
 	height: 100%;
 	display: flex;
 	align-items: center;
+	text-align: center;
 }
 header .title{
 	font-weight: bold;
 	font-size: 1.5em;
+	padding: 5px 10px;
 }
 header .title span{
 	color: #00beff;
 }
 header .navigation{
 	margin: auto;
+	padding: 5px 10px;
+	display: block;
 }
 header .navigation input{
+	width: 15%;
 	border: 0;
 	padding: 5px;
 }
-header .navigation button{
+header .btn{
 	border: 0;
 	padding: 5px 10px;
 	background-color: #00beff;
 	color: #fff;
 	font-weight: bold;
+	cursor: pointer;
+	text-decoration: none;
+	border-radius: 2px;
 }
-header .navigation input:hover,
-header .navigation button:hover{
+header .navigation input:hover{
+	box-shadow: 0 0 1px 1px #AAA;
+}
+header .btn:hover{
 	box-shadow: 0 0 1px 1px #00beff;
+}
+header .links{
+	padding: 5px 10px;
+	display: block;
+}
+header .links a{
+	display: block;
+	padding: 5px;
+}
+@media screen and (max-width: 600px){
+	header .content{
+		display: block;
+	}
+	header .links{
+		padding: 10px 10px;
+	}
+	header .links a{
+		display: inline;
+	}
 }
