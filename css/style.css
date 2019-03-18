@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 header{
+	height: 50px;
 	color: #fff;
 	background-color: #000;
 	border-bottom: 2px solid #00beff;
@@ -57,6 +58,9 @@ header .links a{
 	padding: 5px;
 }
 @media screen and (max-width: 600px){
+	header{
+		height: auto;
+	}
 	header .content{
 		display: block;
 	}
