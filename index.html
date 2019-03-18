@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--- Responsive design --->
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--- Google / Search Engine Tags --->
+	<title>Silkroad Map - By ProjexNET</title>
+	<meta itemprop="name" content="Silkroad Map">
+	<meta name="description" content="Silkroad map viewer">
+	<meta itemprop="image" content="images/Silkroad.ico">
+	<meta name="author" content="ProjeXNET">
+	<meta name="keywords" content="silkroad, map, viewer,ProjeXNET,JellyBitz" />
+	<!--- Icon & Normalize --->
+	<link rel="icon" href="images/Silkroad.ico">
+	<link rel="stylesheet" type="text/css" href="css/normalize.min.css">
+	<!-- Everything else.. -->
+	<link rel="stylesheet" type="text/css" href="js/leaflet/leaflet.css">
+	<link rel="stylesheet" type="text/css" href="js/leaflet/leaflet.easy-button.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<style type="text/css">
+		#screen{
+			height: 100vh;
+			width: 100vw;
+			overflow: hidden;
+		}
+		#map{
+			width: 100%;
+			height: calc(100% - 50px);
+		}
+	</style>
+</head>
+<body>
+	<div id="screen">
+		<header>
+			<div class="content">
+				<div class="title">Proje<span>xNET</span></div>
+				<div class="navigation">
+					<input type="text" placeholder="X" name="coord-x" id="coord-x">
+					<input type="text" placeholder="Y" name="coord-y" id="coord-y">
+					<input type="text" placeholder="Z (optional)" name="coord-z" id="coord-z">
+					<input type="text" placeholder="Region (optional)" name="coord-r" id="coord-r">
+					<button onclick="go();">Go</button>
+				</div>
+			</div>
+		</header>
+		<div id="map"></div>
+	</div>
+	<script type="text/javascript" src="js/leaflet/leaflet.min.js"></script>
+	<script type="text/javascript" src="js/leaflet/leaflet.easy-button.js"></script>
+	<script type="text/javascript" src="js/map.js"></script>
+	<script type="text/javascript">
+		initMap();
+		moveCharacter(-10658,2609);
+		function go() {
+			var cx = parseInt(document.getElementById('coord-x').value);
+			var cy = parseInt(document.getElementById('coord-y').value);
+			var cz = parseInt(document.getElementById('coord-z').value);
+			var cr = parseInt(document.getElementById('coord-r').value);
+			if(cx && cy){
+				if(cz && cr){
+					moveCharacter(cx,cy,cz,cr);
+				}else{
+					moveCharacter(cx,cy);
+				}
+			}		
+		}
+	</script>
+</body>
+</html>
