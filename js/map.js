@@ -292,6 +292,10 @@ function MapToSilkroad(lat,lng){
 }
 // All data about detect the dungeon is calculated here
 function getLayer(x,y,z,region){
+	// Just leaving this here for the future
+	if(region & 0x8000){ // it's in dungeon
+		
+	}
 	if(region==0){
 	// Using this at the moment because I don't know the regions values
 	var xPosition = (x % 192) * 10;
