@@ -481,6 +481,11 @@
 .leaflet-popup-content p {
   margin: 18px 0;
 }
+.leaflet-popup-content span.npc{
+  font-weight: normal;
+  font-style: italic;
+  color: #00BEFF;
+}
 .leaflet-popup-tip-container {
   width: 40px;
   height: 20px;
