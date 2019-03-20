@@ -66,7 +66,7 @@
 	<script type="text/javascript" src="js/map.js"></script>
 	<script type="text/javascript">
 		// start view at Jangan
-		initMap(6435,1039);
+		SilkroadMap.init('map',6435,1039);
 		function go() {
 			var cx = parseInt(document.getElementById('coord-x').value);
 			var cy = parseInt(document.getElementById('coord-y').value);
@@ -74,9 +74,9 @@
 			var cr = parseInt(document.getElementById('coord-r').value);
 			if(cx && cy){
 				if(cz && cr){
-					moveCharacter(cx,cy,cz,cr);
+					SilkroadMap.movePointer(cx,cy,cz,cr);
 				}else{
-					moveCharacter(cx,cy);
+					SilkroadMap.movePointer(cx,cy);
 				}
 			}		
 		}
