@@ -15,6 +15,8 @@ var SilkroadMap = function() {
 	map_layer_jangan_b2,
 	map_layer_jangan_b3,
 	map_layer_jangan_b4;
+	// NPC's locations by layer
+	var map_layer_NPCs;
 	// Load all map layers
 	var initMapLayers = function (){
 		var b_url = 'images/silkroad/minimap/';
@@ -37,6 +39,81 @@ var SilkroadMap = function() {
 			attribution: '<a href="#">Cave Jangan (3B)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b4 = L.tileLayer(b_url+'d/qt_a01_floor04_{x}x{-y}.jpg',{
 			attribution: '<a href="#">Cave Jangan (4B)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+		map_layer_NPCs = {
+		"map_layer_world":{
+			/* NPC Format :
+			> "Name":["Title",x,y,z,r,Teleport Type?,Teleport?,x?,y?,z?,r?,Teleport??,x??,y??,z??,r??,...]
+			*/
+			"JANGAN":["",6464,1088,0,0,"main_gate","Donwhang",3553,2112,0,0,],
+			"Jangan Cave":["",7203,2027,0,0,"dungeon","Jangan (1B)",-23232,642,0,0,],
+			"CONSTANTINOPLE":["",-10683,2583,0,0,"main_gate","Samarkand",-5185,2895,0,0],
+			"Sikeulro":["Inn Master",-10618,2580,0,0],
+			"Retaldi":["Nun",-10617,2635,0,0],
+			"Balbardo":["Weapon Trader",-10674,2649,0,0],
+			"Treno":["Stable-Keeper",-10765,2532,0,0],
+			"Jatomo":["Protector Trader",-10750,2605,0,0],
+			"Demetry":["Adventurer",-10617,2554,0,0],
+			"Lipria":["Guide",-10618,2921,0,0],
+			"Raffy":["Guide",-10972,2628,0,0],
+			"Riise":["Guide",-10696,2609,0,0],
+			"Ratchel":["General",-10830,2467,0,0],
+			"Kapros":["Association Boss",-10833,2404,0,0],
+			"Uvetino":["Association Boss",-10885,2351,0,0],
+			"Tana":["Merchant Associate",-10736,2513,0,0],
+			"Tina":["Specialty Trader",-10717,2518,0,0],
+			"Vesaros":["Soldier",-10750,2664,0,0],
+			"Kotomo":["Soldier",-10740,2673,0,0],
+			"Kalsius":["Soldier",-10615,2935,0,0],
+			"Adria":["Hunter Associate",-10835,2703,0,0],
+			"Rialto":["Consul",-10864,2787,0,0],
+			"Justia":["Soldier",-10853,2301,0,0],
+			"Gilt":["Guild Manager",-10553,2328,0,0],
+			"Kartino":["Soldier",-10495,2472,0,0],
+			"Maximus":["Soldier",-10481,2484,0,0],
+			"Riedo":["Soldier",-10638,2935,0,0],
+			"Alex":["Soldier",-11005,2636,0,0],
+			"Takia":["Soldier",-11005,2650,0,0],
+			"Bajel":["Grocery Trader",-10683,2521,0,0],
+			"Gabriel":["Clergy",-10387,2776,0,0],
+			"Sunset Witch":["",-10377,3230,0,0],
+			"Yongso":["Boy",-10392,3220,0,0],
+			"Steward Yupitel":["",-10881,2617,0,0],
+			"Gale":["Harbor Manager",-11425,1162,0,0,"ferry","Droa Dock",-8692,2208,0,0,"Sigia Dock",-8700,1828,0,0],
+			"Morgun":["Pirate",-8692,2208,0,0,"ferry","Eastern Europe Dock",-11425,1162,0,0],
+			"Blackbeard":["Pirate",-8700,1828,0,0,"ferry","Eastern Europe Dock",-11425,1162,0,0],
+			"DONWHANG":["",3553,2112,0,0,"main_gate","Hotan",113,46,0,0,"Jangan",6435,1039,0,0],
+			"SAMARKAND":["",-5185,2890,0,0,"main_gate","Constantinople",-10684,2586,0,0,"Hotan",113,49,0,0],
+			"Saesa":["Storage-Keeper",-5128,2801,0,0],
+			"Martel":["Nun",-5234,2872,0,0],
+			"Hoyun":["Stable-Keeper",-5116,2903,0,0],
+			"Tricai":["Weapon Trader",-5200,2961,0,0],
+			"Saha":["Grocery Trader",-5212,2833,0,0],
+			"Aryoan":["Protector Trader",-5247,2915,0,0],
+			"Hapsa":["Guild Manager",-5171,2971,0,0],
+			"Shahad":["Hunter Associate",-5144,3008,0,0],
+			"Karen":["Merchant Associate",-5118,2870,0,0],
+			"Toson":["Specialty Trader",-5101,2870,0,0],
+			"Dohwa":["Soldier",-5190,2709,0,0],
+			"Tapai":["Soldier",-5177,2709,0,0],
+			"Ahu":["Soldier",-5363,2898,0,0],
+			"Asahap":["Soldier",-5363,2885,0,0],
+			"Jooha":["Soldier",-5002,2898,0,0],
+			"Paje":["Soldier",-5002,2883,0,0],
+			"HOTAN":["",113,46,0,0,"main_gate","Samarkand",-5185,2895,0,0,"Donwhang",3553,2112,0,0,"Alexandria (N)",-16151,74,0,0,"Alexandria (S)",-16645,-272,0,0],
+			"Auisan":["Storage-Keeper",113,60,0,0],
+			"Mamoje":["Jewel Lapidary",85,-5,0,0],
+			"Gonishya":["Protector Trader",57,18,0,0],
+			"ALEXANDRIA NORTH":["",-16151,74,0,0,"main_gate","Alexandria (S)",-16645,-272,0,0,"Hotan",113,49,0,0],
+			"ALEXANDRIA SOUTH":["",-16645,-272,0,0,"main_gate","Alexandria (N)",-16151,74,0,0,"Hotan",113,49,0,0],
+			},
+		"map_layer_jangan_b1":{
+			"Jangan Teleport (1)":["",-23232,642,0,0,"tel","Jangan",7203,2027,0,0],
+			"Jangan Teleport (2)":["",-23232,1932,0,0,"tel","Jangan (2B)",7203,2027,0,0],
+		},
+		"map_layer_donwhang_1f":{
+			"Donwhang Teleport (1)":["",-24278,-88,0,0,"tel","Donwhang",2471,2691,0,0]
+		}
+		};
 	};
 	// Change the current layer for another one if it's needed
 	var setMapLayer = function (layer){
@@ -91,12 +168,13 @@ var SilkroadMap = function() {
 		var obj_npc_hunter = new obj_23px({iconUrl: b_url+'xy_hunter.png'});
 		var obj_npc_thief = new obj_23px({iconUrl: b_url+'xy_thief.png'});
 		var obj_npc_merchant = new obj_23px({iconUrl: b_url+'xy_merchant.png'});
-		var obj_npc_specialty = new obj_23px({iconUrl: b_url+'xy_specialty.png'});
+		var obj_npc_speciality = new obj_23px({iconUrl: b_url+'xy_speciality.png'});
 		var obj_npc_market_1 = new obj_23px({iconUrl: b_url+'xy_market_1.png'});
 		var obj_npc_market_2 = new obj_23px({iconUrl: b_url+'xy_market_2.png'});
 		var obj_npc_oction = new obj_23px({iconUrl: b_url+'xy_specialty.png'});
 		var obj_npc_new = new obj_23px({iconUrl: b_url+'xy_new.png'});
 		var obj_tp_gate = new obj_23px({iconUrl: b_url+'xy_gate.png'});
+		var obj_tp_tel = new obj_23px({iconUrl: b_url+'map_world_icontel.png'});
 		var obj_tp_ferry = new L.Icon({
 			iconUrl: b_url+'xy_ferry.png',
 			iconSize:	[29,25],
@@ -139,119 +217,110 @@ var SilkroadMap = function() {
 			iconAnchor:	[10,15],
 			popupAnchor:[0,0]
 		});
+		// Filter layer objects
+		layer_npcs = []
 		switch(layer){
 			case map_layer_world:
+			// Select NPC's from layer
+			layer_npcs = map_layer_NPCs["map_layer_world"];
+			// Adding house icons
 			// Jangan
-			addMarker(obj_npc_warehouse,'Warehouse<br><span class="npc">Wangu & Sansan</span>',6435,1055);
-			addMarker(obj_npc_potion,'Herbalist<br><span class="npc">Yangyun</span>',6508,1100);
-			addMarker(obj_npc_stable,'Stable<br><span class="npc">Machun</span>',6360,1008);
-			addMarker(obj_npc_weapon,'Blacksmith<br><span class="npc">Chulsan</span>',6363,1102);
-			addMarker(obj_npc_etc,'Grocery Trader<br><span class="npc">Jinjin</span>',6510,1068);
-			addMarker(obj_npc_armor,'Protector Trader<br><span class="npc">Mrs. Jang</span>',6359,1066);
-			addMarker(obj_tp_gate,'<span>&starf;</span> JANGAN<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(3553,2112);">Donwhang</a>',6464,1088);
-			addMarker(obj_npc,'Hunter Associate<br><span class="npc">Gwakwi</span>',6307,1184);
-			addMarker(obj_npc,'Guild Manager<br><span class="npc">Leebaek</span>',6248,1197);
-			addMarker(obj_npc,'General<br><span class="npc">Sonhyeon</span>',6206,1174);
-			addMarker(obj_npc,'Military Camp Soldier<br><span class="npc">Juho</span>',6296,1294);
-			addMarker(obj_npc,'Buddhist Priest<br><span class="npc">Kushyan</span>',6600,1164);
-			addMarker(obj_npc,'Buddhist Priest<br><span class="npc">Jeonghye</span>',6596,1249);
-			addMarker(obj_npc,'Islam Merchant<br><span class="npc">Ishyak</span>',6508,1010);
-			addMarker(obj_npc,'Specialty Trader<br><span class="npc">Jodaesan</span>',6513,1001);
-			addMarker(obj_npc,'Merchant Associate<br><span class="npc">Hwanjung</span>',6513,989);
-			addMarker(obj_npc,'Adventurer<br><span class="npc">Flora</span>',6508,980);
-			addMarker(obj_npc_shamanhouse,'Exorcist\'s Home<br><span class="npc">Miaoryeong</span>',5780,1220);
-			addMarker(obj_tp_fort,'Gate of Jangan Fortress I<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-12560,-4543);">Gate I of Fortress</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-12369,-4547);">Gate II of Fortress</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-11779,-4555);">Gate III of Fortress</a>',6161,51);
-			addMarker(obj_tp_fort,'Gate of Jangan Fortress II<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-12560,-4543);">Gate I of Fortress</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-12369,-4547);">Gate II of Fortress</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-11779,-4555);">Gate III of Fortress</a>',6350,49);
-			addMarker(obj_tp_fort,'Gate of Jangan Fortress III<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-12560,-4543);">Gate I of Fortress</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-12369,-4547);">Gate II of Fortress</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-11779,-4555);">Gate III of Fortress</a>',6611,50);
-			addMarker(obj_tp_fort,'Gate I of Fortress<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6161,51);">Gate of Jangan Fortress I</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6350,49);">Gate of Jangan Fortress II</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6611,50);">Gate of Jangan Fortress III</a>',-12560,-4543);
-			addMarker(obj_tp_fort,'Gate II of Fortress<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6161,51);">Gate of Jangan Fortress I</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6350,49);">Gate of Jangan Fortress II</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6611,50);">Gate of Jangan Fortress III</a>',-12369,-4547);
-			addMarker(obj_tp_fort,'Gate III of Fortress<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6161,51);">Gate of Jangan Fortress I</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6350,49);">Gate of Jangan Fortress II</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6611,50);">Gate of Jangan Fortress III</a>',-11779,-4555);
-			addMarker(obj_tp_ferry,'Chinese eastern ferry<br><span class="npc">Doji</span><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(5059,1661);">Seoyeok\'s eastern ferry</a>',5034,1146);
-			addMarker(obj_tp_ferry,'Chinese western ferry<br><span class="npc">Chau</span><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(4110,1186);">Seoyeok\'s western ferry</a>',4447,934);
-			addMarker(obj_tp_dungeon,'Jangan Cave<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-23232,642);">Jangan (1B)</a>',7203,2027);
-			// Donwhang
-			addMarker(obj_npc_warehouse,'Warehouse',3585,1989);
-			addMarker(obj_npc_potion,'Herbalist',3520,2033);
-			addMarker(obj_npc_stable,'Stable',3595,2089);
-			addMarker(obj_npc_weapon,'Blacksmith',3572,2045);
-			addMarker(obj_npc_etc,'GroceryTrader',3516,1995);
-			addMarker(obj_npc_armor,'Armors',3573,2015);
-			addMarker(obj_npc_guild,'Guild',3591,1969);
-			addMarker(obj_tp_gate,'<span>&starf;</span> DONWHANG<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(6435,1039);">Jangan</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(113,45);">Hotan</a>',3553,2112);
-			addMarker(obj_tp_ferry,'Seoyeok\'s eastern ferry<br><span class="npc">Tayun</span><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(5034,1146);">Chinese eastern ferry</a>',5059,1661);
-			addMarker(obj_tp_ferry,'Seoyeok\'s western ferry<br><span class="npc">Hageuk</span><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(4447,934);">Chinese western ferry</a>',4110,1186);
-			addMarker(obj_tp_dungeon,'Donwhang Cave<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-24278,-88);">Donwhang (1F)</a>',2471,2691);
-			// Hotan
-			addMarker(obj_npc_warehouse,'Warehouse',113,62);
-			addMarker(obj_npc_potion,'Herbalist',82,104);
-			addMarker(obj_npc_stable,'Stable',148,3);
-			addMarker(obj_npc_weapon,'Blacksmith',57,75);
-			addMarker(obj_npc_etc,'GroceryTrader',89,-2);
-			addMarker(obj_npc_armor,'Armors',61,20);
-			addMarker(obj_npc_guild,'Guild',115,415);
-			addMarker(obj_tp_gate,'<span>&starf;</span> HOTAN<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(3553,2112);"> Donwhang</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-5185,2895);"> Samarkand</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-16151,74);"> Alexandria (N)</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-16645,-272);"> Alexandria (S)</a>',113,45);
-			addMarker(obj_tp_flyship,'Karakoram North Dock<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-3155,609);"> Roc Mountain Northeast Dock</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-3169,-950);"> Roc Mountain Southeast Dock</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-2942,1851);"> Central Asia Aircraft Dock</a>',-2625,386);
-			addMarker(obj_tp_flyship,'Karakoram Southeast Dock<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-3155,609);"> Roc Mountain Northeast Dock</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-3169,-950);"> Roc Mountain Southeast Dock</a>',-2603,-1027);
-			// Mt. Roc
-			addMarker(obj_tp_flyship,'Roc Mountain Northeast Dock<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-2625,386);"> Karakoram North Dock</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-2603,-1027);"> Karakoram South Dock</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-2942,1851);"> Central Asia Aircraft Dock</a>',-3155,609);
-			addMarker(obj_tp_flyship,'Roc Mountain Southeast Dock<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-2625,386);"> Karakoram North Dock</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-2603,-1027);"> Karakoram South Dock</a>',-3169,-950);
-			addMarker(obj_tp_tahomet_gate,'Gate of Ruler',-4612,3);
-			// Samarkand
-			addMarker(obj_npc_warehouse,'Warehouse',-5134,2803);
-			addMarker(obj_npc_potion,'Herbalist',-5232,2875);
-			addMarker(obj_npc_stable,'Stable',-5117,2898);
-			addMarker(obj_npc_weapon,'Blacksmith',-5197,2958);
-			addMarker(obj_npc_etc,'GroceryTrader',-5213,2838);
-			addMarker(obj_npc_armor,'Armors',-5252,2915);
-			addMarker(obj_npc_guild,'Guild',-5175,2975);
-			addMarker(obj_tp_gate,'<span>&starf;</span> SAMARKAND<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(113,45);"> Hotan</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-10684,2586);"> Constantinople</a>',-5185,2895);
-			addMarker(obj_tp_ferry,'Droa Dock<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-11427,1167);">Eastern Europe Dock</a>',-8692,2208);
-			addMarker(obj_tp_ferry,'Sigia Dock<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-11427,1167);">Eastern Europe Dock</a>',-8692,1833);
-			addMarker(obj_tp_flyship,'Central Asia Aircraft Dock<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-2625,386);"> Karakoram North Dock</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-3155,609);"> Roc Mountain Northeast Dock</a>',-2942,1851);
+			addMarker(obj_npc_weapon,'Blacksmith',6357,1097);
+			addMarker(obj_npc_potion,'Drug Store',6513,1091);
+			addMarker(obj_npc_stable,'Stable',6359,1006);
+			addMarker(obj_npc_armor,'Protector Shop',6359,1061);
+			addMarker(obj_npc_etc,'Grocery Shop',6514,1072);
+			addMarker(obj_npc_guild,'Guild Storage',116,460);
+			addMarker(obj_npc_speciality,'Specialty Shop',6524,994);
+			addMarker(obj_npc_hunter,'Hunter Association',216,143);
+			addMarker(obj_npc_shamanhouse,'Exorcist\'s Home',5772,1229);
 			// Constantinople
-			addMarker(obj_npc_warehouse,'Warehouse',-10627,2583);
-			addMarker(obj_npc_potion,'Herbalist',-10625,2623);
-			addMarker(obj_npc_stable,'Stable',-10759,2537);
-			addMarker(obj_npc_weapon,'Blacksmith',-10674,2649);
-			addMarker(obj_npc_etc,'GroceryTrader',-10685,2527);
-			addMarker(obj_npc_armor,'Armors',-10750,2605);
-			addMarker(obj_tp_gate,'<span>&starf;</span> CONSTANTINOPLE<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-5185,2895);"> Samarkand</a>',-10684,2586);
-			addMarker(obj_tp_ferry,'Eastern Europe Dock<br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-8692,2208);">Droa Dock</a><br><span>&bullet; </span><a href="#" onclick="SilkroadMap.MoveTo(-8692,1833);">Sigia Dock</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-16545,380);"> Alexandria Ferry</a>',-11427,1167);
-			// Alexandria (North & South)
-			addMarker(obj_npc_warehouse,'Warehouse',-16085,20);
-			addMarker(obj_npc_potion,'Herbalist',-16239,35);
-			addMarker(obj_npc_stable,'Stable',-16432,-218);
-			addMarker(obj_npc_weapon,'Blacksmith',-16260,-15);
-			addMarker(obj_npc_etc,'GroceryTrader',-16198,52);
-			addMarker(obj_npc_armor,'Armors',-16263,-45);
-			addMarker(obj_tp_gate,'<span>&starf;</span> ALEXANDRIA NORTH<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-16645,-272);"> Alexandria (S)</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(113,45);"> Hotan</a>',-16151,74);
-			addMarker(obj_npc_warehouse,'Warehouse',-16473,-300);
-			addMarker(obj_npc_potion,'Herbalist',-16628,-355);
-			addMarker(obj_npc_weapon,'Blacksmith',-16745,-276);
-			addMarker(obj_npc_etc,'GroceryTrader',-16580,-272);
-			addMarker(obj_npc_armor,'Armors',-16727,-293);
-			addMarker(obj_tp_gate,'<span>&starf;</span> ALEXANDRIA SOUTH<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-16151,74);"> Alexandria (N)</a><br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(113,45);"> Hotan</a>',-16645,-272);
-			addMarker(obj_tp_ferry,'Alexandria Ferry<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(-11427,1167);"> Eastern Europe Dock</a>',-16545,380);
-			break;
-			case map_layer_donwhang_1f:
-			addMarker(obj_tp_gate,'Donwhang (1B)<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(2471,2691);">Donwhang</a>',-24278,-88); 
-			break;
-			case map_layer_donwhang_2f:
-			break;
-			case map_layer_donwhang_3f:
-			break;
-			case map_layer_donwhang_4f:
+			addMarker(obj_npc_warehouse,'Inn',-10600,2564);
+			addMarker(obj_npc_weapon,'Blacksmith',-10679,2664);
+			addMarker(obj_npc_potion,'Drug Store',-10593,2636);
+			addMarker(obj_npc_stable,'Stable',-10783,2544);
+			addMarker(obj_npc_armor,'Protector Shop',-10761,2589);
+			addMarker(obj_npc_etc,'Grocery Shop',-10683,2501);
+			addMarker(obj_npc_guild,'Guild Storage',-10527,2310);
+			addMarker(obj_npc_speciality,'Specialty Shop',-10736,2497);
+			addMarker(obj_npc_hunter,'Hunter Association',-10848,2689);
+			// Donwhang
+			addMarker(obj_npc_weapon,'Blacksmith',3592,2035);
+			addMarker(obj_npc_potion,'Drug Store',3505,2028);
+			addMarker(obj_npc_stable,'Stable',3613,2069);
+			addMarker(obj_npc_armor,'Protector Shop',3590,2005);
+			addMarker(obj_npc_etc,'Grocery Shop',3500,1989);
+			addMarker(obj_npc_guild,'Guild Storage',3594,1952);
+			addMarker(obj_npc_speciality,'Specialty Shop',3500,2059);
+			addMarker(obj_npc_hunter,'Hunter Association',3506,2190);
+			// Samarkand
+			addMarker(obj_npc_warehouse,'Inn',-5113,2807);
+			addMarker(obj_npc_weapon,'Blacksmith',-5209,2971);
+			addMarker(obj_npc_potion,'Drug Store',-5247,2867);
+			addMarker(obj_npc_stable,'Stable',-5115,2919);
+			addMarker(obj_npc_armor,'Protector Shop',-5265,2921);
+			addMarker(obj_npc_etc,'Grocery Shop',-5220,2818);
+			addMarker(obj_npc_guild,'Guild Storage',-5153,2970);
+			addMarker(obj_npc_speciality,'Specialty Shop',-5108,2852);
+			addMarker(obj_npc_hunter,'Hunter Association',-5125,3010);
+			// Hotan
+			addMarker(obj_npc_weapon,'Blacksmith',44,88);
+			addMarker(obj_npc_potion,'Drug Store',79,122);
+			addMarker(obj_npc_stable,'Stable',168,-3);
+			addMarker(obj_npc_armor,'Protector Shop',43,10);
+			addMarker(obj_npc_etc,'Grocery Shop',77,-20);
+			addMarker(obj_npc_guild,'Guild Storage',116,460);
+			addMarker(obj_npc_speciality,'Specialty Shop',171,96);
+			addMarker(obj_npc_hunter,'Hunter Association',216,143);
+			
+			// in progress ...
+			
 			break;
 			case map_layer_jangan_b1:
-			addMarker(obj_tp_gate,'Jangan (1B)<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(7203,2027);">Jangan</a>',-23232,642);
-			addMarker(obj_tp_gate,'Jangan (1B)<br><span>&bullet;</span><a href="#" onclick="SilkroadMap.MoveTo(7203,2027);">Jangan</a>',-23232,1932);
+			layer_npcs = map_layer_NPCs["map_layer_jangan_b1"];
 			break;
-			case map_layer_jangan_b2:
+			case map_layer_donwhang_1f:
+			layer_npcs = map_layer_NPCs["map_layer_donwhang_1f"];
 			break;
-			case map_layer_jangan_b3:
-			break;
-			case map_layer_jangan_b4:
-			break;
+		}
+		// Load all NPC's & Teleports from layer
+		var npc_title,npc_name,npc_icon,npc_tp;
+		for(var key in layer_npcs){
+			npc_icon = obj_npc;
+			npc_tp = "";
+			npc_title = layer_npcs[key][0];
+			npc_name = '<div class="npc">'+key+'</div>';
+			// it's a teleport
+			if(layer_npcs[key].length > 5 ){
+				switch(layer_npcs[key][5]){
+					case "main_gate":
+					npc_icon = obj_tp_gate;
+					npc_title = '&starf; '+key;
+					npc_name = "";
+					break;
+					case "ferry":
+					npc_icon = obj_tp_ferry;
+					break;
+					case "gate":
+					npc_icon = obj_tp_gate;
+					break;
+					case "dungeon":
+					npc_icon = obj_tp_dungeon;
+					npc_name = "";
+					npc_title = key;
+					break;
+					case "tel":
+					npc_icon = obj_tp_tel;
+					npc_name = "";
+					npc_title = key;
+					break;
+				}
+				// add tp movements
+				for (var i = 6; i < layer_npcs[key].length; i+=5) {
+					npc_tp += '<div class="opt">&bullet; <a href="#" onclick="SilkroadMap.MoveTo('+layer_npcs[key][i+1]+','+layer_npcs[key][i+2]+','+layer_npcs[key][i+3]+','+layer_npcs[key][i+4]+');">'+layer_npcs[key][i]+'</a></div>';
+				}
+			}
+			addMarker(npc_icon,npc_title+npc_name+npc_tp,layer_npcs[key][1],layer_npcs[key][2],layer_npcs[key][3],layer_npcs[key][4]);
 		}
 	};
 	// Kind minify & friendly reduced
@@ -263,7 +332,7 @@ var SilkroadMap = function() {
 		// Scale approx. & DumbFix
 		x = (x/97.54)/1.4;
 		y += Math.pow(y,2)/(25600);
-		y = (y/136.6)/1.4;
+		y = (y/136.38)/1.4;
 		// Map center (approx)
 		switch(map_layer){
 			case map_layer_world:
@@ -300,7 +369,7 @@ var SilkroadMap = function() {
 		}
 		// Scale & reverse DumbFix
 		lng = (lng*97.54)*1.4;
-		lat = (lat*136.6)*1.4;
+		lat = (lat*136.38)*1.4;
 		lat = 160*((Math.pow(lat+6400,1/2)) - 80);
 		return [lng,lat];
 	};
@@ -311,21 +380,19 @@ var SilkroadMap = function() {
 
 		}
 		// Using this at the moment because I don't know the regions values
-		if(region==0){
-			var xPosition = (x % 192) * 10;
-			var yPosition = (y % 192) * 10;
-			var xSector = (x - xPosition / 10) / 192 + 135;
-			var ySector = (y - yPosition / 10) / 192 + 92;
-			if(xSector < 26){
-				if (xSector >= 7 && xSector <= 9){
-					return map_layer_donwhang_1f;
-				}
-				if(xSector >= 12 && xSector <= 16){
-					return map_layer_jangan_b1;
-				}
+		var xPosition = (x % 192) * 10;
+		var yPosition = (y % 192) * 10;
+		var xSector = (x - xPosition / 10) / 192 + 135;
+		var ySector = (y - yPosition / 10) / 192 + 92;
+		if(xSector < 26){
+			if (xSector >= 7 && xSector <= 9){
+				return map_layer_donwhang_1f;
 			}
-			return map_layer_world;
+			if(xSector >= 12 && xSector <= 16){
+				return map_layer_jangan_b1;
+			}
 		}
+		return map_layer_world;
 	};
 	// Add the character pointer
 	var addMapCharacter = function (layer){
@@ -357,7 +424,7 @@ var SilkroadMap = function() {
 		// check the layer
 		setMapLayer(getLayer(x,y,z,r));
 		// set the view
-		map.flyTo(SilkroadToMap(x,y,z,r));
+		map.flyTo(SilkroadToMap(x,y,z,r),8);
 	};
 	return {
 		// Initialize a map setting the view 
@@ -383,7 +450,7 @@ var SilkroadMap = function() {
 			// show coords at clicking
 			map.on('click', function (e){
 				var c = MapToSilkroad(e.latlng.lat,e.latlng.lng);
-				c = '(X:'+Math.round(c[0],5)+',Y:'+Math.round(c[1],5)+')';
+				c = 'X:'+Math.round(c[0],5)+' Y:'+Math.round(c[1],5);
 				L.popup().setLatLng(e.latlng).setContent(c).openOn(map);
 			})
 			// load layers
@@ -400,12 +467,12 @@ var SilkroadMap = function() {
 			FlyTo(x,y,z,r);
 		},
 		// Move/Remove the main pointer/character
-		movePointer:function(x,y,z=0,r=0){
+		MovePointer:function(x,y,z=0,r=0){
 			// update the position
 			map_marker_char_pos = [x,y,z,r];
 			FlyTo(x,y,z,r);
 		},
-		removePointer:function(x,y,z=0,r=0){
+		RemovePointer:function(x,y,z=0,r=0){
 			map_marker_char_pos = null;
 			setMapLayer(map_layer);
 		}

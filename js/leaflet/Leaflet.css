@@ -475,16 +475,20 @@
   border-radius: 5px;
 }
 .leaflet-popup-content {
-  margin: 5px 10px;
+  margin: 5px 15px;
   line-height: 1.4;
-  }
-.leaflet-popup-content p {
-  margin: 18px 0;
+  text-align: center;
 }
-.leaflet-popup-content span.npc{
+.leaflet-popup-content .npc{
   font-weight: normal;
   font-style: italic;
   color: #00BEFF;
+}
+.leaflet-popup-content .opt{
+  text-align: left;
+}
+.leaflet-popup-content .opt a{
+  text-decoration: none;
 }
 .leaflet-popup-tip-container {
   width: 40px;
