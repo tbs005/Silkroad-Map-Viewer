@@ -17,6 +17,9 @@ var SilkroadMap = function() {
 	map_layer_jangan_b4;
 	// NPC's locations by layer
 	var map_layer_NPCs;
+	// Shapes at the map
+	var map_shapes = [];
+	var map_shapes_id = 0;
 	// Load all map layers
 	var initMapLayers = function (){
 		var b_url = 'images/silkroad/minimap/';
@@ -117,12 +120,17 @@ var SilkroadMap = function() {
 	};
 	// Change the current layer for another one if it's needed
 	var setMapLayer = function (layer){
-		// Update map
+		// update map
 		if (map_layer && map_layer != layer){
 			// remove layer and objects
 			map.eachLayer(function(maplayer){
 				map.removeLayer(maplayer);
 			});
+			// delete all shapes created
+			for (var shape in map_shapes) {
+				map_shapes[shape] = [];
+			}
+			// reset
 			map_marker_char = null;
 			map_layer = null;
 		}
@@ -189,9 +197,9 @@ var SilkroadMap = function() {
 		});
 		var obj_npc_shamanhouse = new L.Icon({
 			iconUrl: b_url+'xy_shamanhouse.png',
-			iconSize:     [29,25],
-			iconAnchor:   [15,12],
-			popupAnchor:  [0,0]
+			iconSize:	[29,25],
+			iconAnchor:	[15,12],
+			popupAnchor:[0,0]
 		});
 		var obj_tp_dungeon = new L.Icon({
 			iconUrl: b_url+'xy_dungeon.png',
@@ -325,7 +333,7 @@ var SilkroadMap = function() {
 	};
 	// Kind minify & friendly reduced
 	var addMarker = function(iconType,html,x,y,z=0,r=0){
-		L.marker(SilkroadToMap(x,y),{icon:iconType}).bindPopup(html).addTo(map);
+		L.marker(SilkroadToMap(x,y),{icon:iconType,pmIgnore:true}).bindPopup(html).addTo(map);
 	};
 	// Convert a Silkroad Coord to Map CRS
 	var SilkroadToMap = function (x,y,z=0,region=0){
@@ -352,6 +360,7 @@ var SilkroadMap = function() {
 	};
 	// Convert Map LatLng to Silkroad coords
 	var MapToSilkroad = function (lat,lng){
+		var z = 0;
 		// Map center (approx)
 		switch(map_layer){
 			case map_layer_world:
@@ -371,7 +380,7 @@ var SilkroadMap = function() {
 		lng = (lng*97.54)*1.4;
 		lat = (lat*136.38)*1.4;
 		lat = 160*((Math.pow(lat+6400,1/2)) - 80);
-		return [lng,lat];
+		return [lng,lat,z];
 	};
 	// All data about detect the dungeon is calculated here
 	var getLayer = function (x,y,z,region){
@@ -426,40 +435,145 @@ var SilkroadMap = function() {
 		// set the view
 		map.flyTo(SilkroadToMap(x,y,z,r),8);
 	};
-	return {
+	// Copy text to clipboard
+	var ToClipboard = function(text) {
+		console.log(text);
+		var e = document.createElement('textarea');
+		e.value = text;
+		document.body.appendChild(e);
+		e.select();
+		document.execCommand('copy');
+		document.body.removeChild(e);
+	};
+	return{
 		// Initialize a map setting the view 
 		init:function(id,x=113,y=12,z=0,r=0){
 			// bind map by tag id
 			map = L.map(id);
 			// add UI controls
+			// move back to Hotan or to the pointer
 			L.easyButton({
 				states:[{
-					icon: '<span>&malt;</span>',
+					icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" style="vertical-align:middle"><path fill="#333" d="M444.52 3.52L28.74 195.42c-47.97 22.39-31.98 92.75 19.19 92.75h175.91v175.91c0 51.17 70.36 67.17 92.75 19.19l191.9-415.78c15.99-38.39-25.59-79.97-63.97-63.97z"/></svg>',
 					title: 'Back to Your Position',
 					onClick: function(){
 						if(map_marker_char){
 							var p = map_marker_char_pos;
 							MoveTo(p[0],p[1],p[2],p[3]);
 						}else{
-							// Hotan
 							MoveTo(113,12);
 						}
+					}
+				}]
+			}).addTo(map);
+			// Copy as text all shapes at map
+			var btnCopy = L.easyButton({
+				states:[{
+					icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="vertical-align:middle; height:16px;"><path fill="#555" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"/></svg>',
+					title: 'Copy Shapes to Clipboard',
+					onClick: function(){
+						var textFile = "";
+						for (var shape in map_shapes){
+							textFile += shape+"(s):\n";
+							var i = 1;
+							for (var id in map_shapes[shape]){
+								textFile += (i++)+")\n";
+								switch(shape){
+									case "Line":
+									for (var j = 0; j < map_shapes[shape][id]._latlngs.length; j++){
+										var p = MapToSilkroad(map_shapes[shape][id]._latlngs[j].lat,map_shapes[shape][id]._latlngs[j].lng);
+										textFile += "X:"+Math.round(p[0])+",Y:"+Math.round(p[1])+",Z:"+Math.round(p[2])+"\n";
+									}
+									break;
+									case "Circle":
+										var p = MapToSilkroad(map_shapes[shape][id]._latlng.lat,map_shapes[shape][id]._latlng.lng);
+										textFile += "X:"+Math.round(p[0])+",Y:"+Math.round(p[1])+",Z:"+Math.round(p[2])+"\n";
+										textFile += "Radius:"+Math.round(map_shapes[shape][id]._radius*37/49.3)+"\n"; // A bit unprecised but enought at the moment
+									break;
+									case "Poly":
+									for (var j = 0; j < map_shapes[shape][id]._latlngs[0].length; j++){
+										var p = MapToSilkroad(map_shapes[shape][id]._latlngs[0][j].lat,map_shapes[shape][id]._latlngs[0][j].lng);
+										textFile += "X:"+Math.round(p[0])+",Y:"+Math.round(p[1])+",Z:"+Math.round(p[2])+"\n";
+									}
+									break;
+								}
+							}
+							textFile+= "\n";
+						}
+						ToClipboard(textFile);
+					}
+				}]
+			});
+			// Script toolbar
+			L.easyButton({
+				states:[{
+					stateName:	'show-bar',
+					icon:		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" style="vertical-align:middle"><path fill="#333" d="M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160-43-96-96-96-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96zm0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zM96 256c-53 0-96 43-96 96s96 160 96 160 96-107 96-160-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/></svg>',
+					title:		'Show Script Toolbar',
+					onClick: function(btn, map) {
+						btn.state('hide-bar');
+						map.pm.addControls({
+							position:'topleft',
+							drawMarker:false,
+							drawPolyline:true,
+							drawRectangle:false,
+							drawPolygon:true,
+							drawCircle:true,
+							editMode:true,
+							dragMode:true,
+							cutPolygon:false,
+							removalMode:true
+						});
+						btnCopy.addTo(map);
+					}
+				},{
+					stateName:	'hide-bar',
+					icon:		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" style="vertical-align:middle"><path fill="#555" d="M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160-43-96-96-96-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96zm0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zM96 256c-53 0-96 43-96 96s96 160 96 160 96-107 96-160-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/></svg>',
+					title:		'Hide Script Toolbar',
+					onClick: function(btn, map) {
+						btn.state('show-bar');
+						map.pm.addControls({
+							drawPolyline:false,
+							drawPolygon:false,
+							drawCircle:false,
+							editMode:false,
+							dragMode:false,
+							removalMode:false
+						});
+						btnCopy.remove();
 					}
 				}]
 			}).addTo(map);
 			// show coords at clicking
 			map.on('click', function (e){
 				var c = MapToSilkroad(e.latlng.lat,e.latlng.lng);
-				c = 'X:'+Math.round(c[0],5)+' Y:'+Math.round(c[1],5);
+				c = 'X:'+Math.round(c[0])+' Y:'+Math.round(c[1]);
 				L.popup().setLatLng(e.latlng).setContent(c).openOn(map);
-			})
+			});
+			// Keep the track of all shapes created
+			map.on('pm:create',function(e){
+				if(!map_shapes[e.shape]){
+					map_shapes[e.shape] = [];
+				}
+				// easy track
+				e.layer["shapeType"] = e.shape;
+				e.layer["shapeId"] = map_shapes_id++;
+				map_shapes[e.shape][e.layer.shapeId] = e.layer;
+				// update shape if is edited
+				e.layer.on('pm:edit', f => {
+					map_shapes[f.target.shapeType][f.target.shapeId] = f.target;
+				});
+			});
+			map.on('pm:remove',function(e){
+				delete map_shapes[e.layer.shapeType][e.layer.shapeId];
+			});
 			// load layers
 			initMapLayers();
 			setMapLayer(map_layer_world);
 			// set initial view
 			map.setView(SilkroadToMap(x,y,z,r),8);
 		},
-		// Set the view using a silkroad coord
+		// Set the view
 		MoveTo:function(x,y,z=0,r=0){
 			MoveTo(x,y,z,r);
 		},
