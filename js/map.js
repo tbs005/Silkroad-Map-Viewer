@@ -1,4 +1,47 @@
-var SilkroadMap = function() {  
+// Increase performance with too many markers
+L.Marker.addInitHook(function(){
+	if(this.options.virtual){
+		// setup virtualization after marker was added
+		this.on('add',function(){
+			this._updateIconVisibility = function() {
+				var map = this._map,
+				isVisible = map.getBounds().contains(this.getLatLng()),
+				wasVisible = this._wasVisible,
+				icon = this._icon,
+				iconParent = this._iconParent,
+				shadow = this._shadow,
+				shadowParent = this._shadowParent;
+				// remember parent of icon 
+				if (!iconParent) {
+					iconParent = this._iconParent = icon.parentNode;
+				}
+				if (shadow && !shadowParent) {
+					shadowParent = this._shadowParent = shadow.parentNode;
+				}
+				// add/remove from DOM on change
+				if (isVisible != wasVisible) {
+					if (isVisible) {
+						iconParent.appendChild(icon);
+						if (shadow) {
+							shadowParent.appendChild(shadow);
+						}
+					}else{
+						iconParent.removeChild(icon);
+						if (shadow) {
+							shadowParent.removeChild(shadow);
+						}
+					}
+					this._wasVisible = isVisible;
+				}
+			};
+			// on map size change, remove/add icon from/to DOM
+			this._map.on('resize moveend zoomend', this._updateIconVisibility, this);
+			this._updateIconVisibility();
+		}, this);
+	}
+});
+// Silkroad map handler
+var SilkroadMap = function(){  
 	var map;
 	// track a point at world map (x,y) or at some cave (x,y,z,region)
 	var map_marker_char;
@@ -47,7 +90,21 @@ var SilkroadMap = function() {
 			/* NPC Format :
 			> "Name":["Title",x,y,z,r,Teleport Type?,Teleport?,x?,y?,z?,r?,Teleport??,x??,y??,z??,r??,...]
 			*/
-			"JANGAN":["",6464,1088,0,0,"main_gate","Donwhang",3553,2112,0,0,],
+			"JANGAN":["",6464,1088,0,0,"main_gate","Donwhang",3554,2108,0,0,],
+			"Wangu & Sansan":["Storage-Keeper",6434,1059,0,0],
+			"Yangyun":["Herbalist",6494,1100,0,0],
+			"Jinjin":["Grocery Trader",6501,1067,0,0],
+			"Machun":["Stable-Keeper",6368,1005,0,0],
+			"Mrs Jang":["Protector Trader",6369,1068,0,0],
+			"Chulsan":["Blacksmith",6369,1100,0,0],
+			"Ishyak":["Islam Merchant",6503,1018,0,0],
+			"Jodaesan":["Specialty Trader",6511,1007,0,0],
+			"Hwajung":["Merchant Associate",6511,995,0,0],
+			"Flora":["Adventurer",6503,986,0,0],
+			"Dangsam":["Soldier",6439,962,0,0],
+			"Jingyo":["Soldier",6429,962,0,0],
+			"Fengil":["Soldier",6429,1150,0,0],
+			"Choiyoung":["Soldier",6437,1150,0,0],
 			"Jangan Cave":["",7203,2027,0,0,"dungeon","Jangan (1B)",-23232,642,0,0,],
 			"CONSTANTINOPLE":["",-10683,2583,0,0,"main_gate","Samarkand",-5185,2895,0,0],
 			"Sikeulro":["Inn Master",-10618,2580,0,0],
@@ -84,7 +141,25 @@ var SilkroadMap = function() {
 			"Gale":["Harbor Manager",-11425,1162,0,0,"ferry","Droa Dock",-8692,2208,0,0,"Sigia Dock",-8700,1828,0,0],
 			"Morgun":["Pirate",-8692,2208,0,0,"ferry","Eastern Europe Dock",-11425,1162,0,0],
 			"Blackbeard":["Pirate",-8700,1828,0,0,"ferry","Eastern Europe Dock",-11425,1162,0,0],
-			"DONWHANG":["",3553,2112,0,0,"main_gate","Hotan",113,46,0,0,"Jangan",6435,1039,0,0],
+			"DONWHANG":["",3554,2108,0,0,"main_gate","Jangan",6435,1039,0,0,"Hotan",113,46,0,0],
+			"Agol":["Blacksmith",3575,2041,0,0],
+			"Yeolah":["Protector Trader",3575,2010,0,0],
+			"Paedo & Irina":["Storage-Keeper",3581,1989,0,0],
+			"Yeosun":["Grocery Trader",3511,1993,0,0],
+			"Bori":["Herbalist",3515,2033,0,0],
+			"Makgo":["Stable-Keeper",3597,2084,0,0],
+			"Leegeuk":["Merchant Associate",3500,2076,0,0],
+			"Leegak":["Specialty Shop Elder",3495,2076,0,0],
+			"Ryukang":["Guild Manager",3591,1964,0,0],
+			"Baeksong":["Soldier",3552,1946,0,0],
+			"Dooil":["Soldier",3468,2103,0,0],
+			"Manho":["Soldier",3468,2112,0,0],
+			"Hahun":["Soldier",3627,2106,0,0],
+			"Moho":["Soldier",3627,2115,0,0],
+			"Haraho":["Hunter Associate",3515,2175,0,0],
+			"Hyeon":["Buddhist Priest",3596,2237,0,0],
+			"Honmusa":["",3501,1966,0,0],
+			"Baekako":["",3491,1966,0,0],
 			"SAMARKAND":["",-5185,2890,0,0,"main_gate","Constantinople",-10684,2586,0,0,"Hotan",113,49,0,0],
 			"Saesa":["Storage-Keeper",-5128,2801,0,0],
 			"Martel":["Nun",-5234,2872,0,0],
@@ -102,10 +177,25 @@ var SilkroadMap = function() {
 			"Asahap":["Soldier",-5363,2885,0,0],
 			"Jooha":["Soldier",-5002,2898,0,0],
 			"Paje":["Soldier",-5002,2883,0,0],
-			"HOTAN":["",113,46,0,0,"main_gate","Samarkand",-5185,2895,0,0,"Donwhang",3553,2112,0,0,"Alexandria (N)",-16151,74,0,0,"Alexandria (S)",-16645,-272,0,0],
+			"HOTAN":["",113,46,0,0,"main_gate","Donwhang",3554,2108,0,0,"Samarkand",-5185,2895,0,0,"Alexandria (N)",-16151,74,0,0,"Alexandria (S)",-16645,-272,0,0],
 			"Auisan":["Storage-Keeper",113,60,0,0],
 			"Mamoje":["Jewel Lapidary",85,-5,0,0],
-			"Gonishya":["Protector Trader",57,18,0,0],
+			"Gonishya":["Protector Trader",57,19,0,0],
+			"Manina":["Blacksmith",83,109,0,0],
+			"Soboi":["Potion Merchant",50,76,0,0],
+			"Sanmok":["Specialty Trader",151,90,0,0],
+			"Asaman":["Merchant Associate",157,83,0,0],
+			"Salihap":["Stable-Keeper",154,-5,0,0],
+			"Baoman":["Soldier",317,53,0,0],
+			"Makhan":["Soldier",317,43,0,0],
+			//"Rahan":["Boat Ticket Seller",1079,-60,0,0,"ferry","Tarim North Ferry",1456,-18,0,0],
+			//"Salmai":["Boat Ticket Seller",1456,-18,0,0,"ferry","Hotan North Ferry",1079,-60,0,0],
+			//"Rahan":["Boat Ticket Seller",1079,-60,0,0,"ferry","Tarim North Ferry",1456,-18,0,0],
+			//"Salmai":["Boat Ticket Seller",1456,-18,0,0,"ferry","Hotan North Ferry",1079,-60,0,0],
+			"Asui":["Tunnel Manager",-1905,1981,0,0,"ferry","Central Asia Northeast Tunnel",-2761,2678,0,0],
+			"Topni":["Tunnel Manager",-2761,2678,0,0,"ferry","Taklamakan Nortwest Tunnel",-1905,1981,0,0],
+			"Salhap":["Tunnel Manager",-2731,2104,0,0,"ferry","Taklamakan Southwest Tunnel",-1902,1387,0,0],
+			"Maryokuk":["Tunnel Manager",-1902,1387,0,0,"ferry","Central Asia Southeast Tunnel",-2731,2104,0,0],
 			"ALEXANDRIA NORTH":["",-16151,74,0,0,"main_gate","Alexandria (S)",-16645,-272,0,0,"Hotan",113,49,0,0],
 			"ALEXANDRIA SOUTH":["",-16645,-272,0,0,"main_gate","Alexandria (N)",-16151,74,0,0,"Hotan",113,49,0,0],
 			},
@@ -140,8 +230,7 @@ var SilkroadMap = function() {
 			map.addLayer(layer);
 			addMapObjects(layer);
 		}
-		
-		// Update character position
+		// update character position
 		if(map_marker_char_pos){
 			if(map_marker_char)
 				map.removeLayer(map_marker_char);
@@ -156,13 +245,13 @@ var SilkroadMap = function() {
 			iconUrl: b_url+'xy_npc.png',
 			iconSize:	[11,15],
 			iconAnchor:	[6,7],
-			popupAnchor:[0,0]
+			popupAnchor:[0,-7]
 		});
 		var obj_23px = L.Icon.extend({
 			options: {
 				iconSize:	[23,23],
 				iconAnchor:	[12,11],
-				popupAnchor:[0,0]
+				popupAnchor:[0,-6]
 			}
 		});
 		// Creating markers
@@ -253,12 +342,12 @@ var SilkroadMap = function() {
 			addMarker(obj_npc_speciality,'Specialty Shop',-10736,2497);
 			addMarker(obj_npc_hunter,'Hunter Association',-10848,2689);
 			// Donwhang
-			addMarker(obj_npc_weapon,'Blacksmith',3592,2035);
+			addMarker(obj_npc_weapon,'Blacksmith',3590,2035);
 			addMarker(obj_npc_potion,'Drug Store',3505,2028);
-			addMarker(obj_npc_stable,'Stable',3613,2069);
+			addMarker(obj_npc_stable,'Stable',3590,2067);
 			addMarker(obj_npc_armor,'Protector Shop',3590,2005);
 			addMarker(obj_npc_etc,'Grocery Shop',3500,1989);
-			addMarker(obj_npc_guild,'Guild Storage',3594,1952);
+			addMarker(obj_npc_guild,'Guild Storage',3591,1949);
 			addMarker(obj_npc_speciality,'Specialty Shop',3500,2059);
 			addMarker(obj_npc_hunter,'Hunter Association',3506,2190);
 			// Samarkand
@@ -333,18 +422,18 @@ var SilkroadMap = function() {
 	};
 	// Kind minify & friendly reduced
 	var addMarker = function(iconType,html,x,y,z=0,r=0){
-		L.marker(SilkroadToMap(x,y),{icon:iconType,pmIgnore:true}).bindPopup(html).addTo(map);
+		L.marker(SilkroadToMap(x,y),{icon:iconType,pmIgnore:true,virtual:true}).bindPopup(html).addTo(map);
 	};
 	// Convert a Silkroad Coord to Map CRS
 	var SilkroadToMap = function (x,y,z=0,region=0){
 		// Scale approx. & DumbFix
-		x = (x/97.54)/1.4;
+		x = x*0.007324;
 		y += Math.pow(y,2)/(25600);
-		y = (y/136.38)/1.4;
+		y = y*0.0052375;
 		// Map center (approx)
 		switch(map_layer){
 			case map_layer_world:
-			x += 9.84;
+			x += 9.85;
 			y += -45.081;
 			break;
 			case map_layer_donwhang_1f:
@@ -360,11 +449,11 @@ var SilkroadMap = function() {
 	};
 	// Convert Map LatLng to Silkroad coords
 	var MapToSilkroad = function (lat,lng){
-		var z = 0;
+		var z = 0,r = 0;
 		// Map center (approx)
 		switch(map_layer){
 			case map_layer_world:
-			lng -= 9.84;
+			lng -= 9.85;
 			lat -= -45.081;
 			break;
 			case map_layer_donwhang_1f:
@@ -377,10 +466,10 @@ var SilkroadMap = function() {
 			break;
 		}
 		// Scale & reverse DumbFix
-		lng = (lng*97.54)*1.4;
-		lat = (lat*136.38)*1.4;
+		lng = lng/0.007324;
+		lat = lat/0.0052375;
 		lat = 160*((Math.pow(lat+6400,1/2)) - 80);
-		return [lng,lat,z];
+		return [lng,lat,z,r];
 	};
 	// All data about detect the dungeon is calculated here
 	var getLayer = function (x,y,z,region){
@@ -480,10 +569,16 @@ var SilkroadMap = function() {
 								textFile += (i++)+")\n";
 								switch(shape){
 									case "Line":
+									var d = 0, q = null;
 									for (var j = 0; j < map_shapes[shape][id]._latlngs.length; j++){
 										var p = MapToSilkroad(map_shapes[shape][id]._latlngs[j].lat,map_shapes[shape][id]._latlngs[j].lng);
 										textFile += "X:"+Math.round(p[0])+",Y:"+Math.round(p[1])+",Z:"+Math.round(p[2])+"\n";
+										if(q){ // skip the first point
+											d += Math.sqrt(Math.pow(Math.round(p[0])-Math.round(q[0]),2)+Math.pow(Math.round(p[1])-Math.round(q[1]),2)+Math.pow(Math.round(p[2])-Math.round(q[2]),2));
+										}
+										q = p;
 									}
+									textFile += "Travel distance:"+d;
 									break;
 									case "Circle":
 										var p = MapToSilkroad(map_shapes[shape][id]._latlng.lat,map_shapes[shape][id]._latlng.lng);
@@ -548,6 +643,7 @@ var SilkroadMap = function() {
 			map.on('click', function (e){
 				var c = MapToSilkroad(e.latlng.lat,e.latlng.lng);
 				c = 'X:'+Math.round(c[0])+' Y:'+Math.round(c[1]);
+				//c += '<br>LAT:'+e.latlng.lat+' LNG:'+e.latlng.lng;
 				L.popup().setLatLng(e.latlng).setContent(c).openOn(map);
 			});
 			// Keep the track of all shapes created
