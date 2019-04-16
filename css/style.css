@@ -33,6 +33,11 @@ header .navigation input{
 	border: 0;
 	padding: 5px;
 }
+header .navigation select{
+	width: 30%;
+	border: 0;
+	padding: 5px;
+}
 header .btn{
 	border: 0;
 	padding: 5px 10px;
@@ -43,7 +48,8 @@ header .btn{
 	text-decoration: none;
 	border-radius: 2px;
 }
-header .navigation input:hover{
+header .navigation input:hover,
+header .navigation select:hover{
 	box-shadow: 0 0 1px 1px #AAA;
 }
 header .btn:hover{
@@ -58,17 +64,8 @@ header .links a{
 	padding: 5px;
 }
 @media screen and (max-width: 600px){
-	header{
-		height: auto;
-	}
-	header .content{
-		display: block;
-	}
 	header .links{
-		padding: 10px 10px;
-	}
-	header .links a{
-		display: inline;
+		display: none;
 	}
 }
 @media screen and (max-width: 800px){

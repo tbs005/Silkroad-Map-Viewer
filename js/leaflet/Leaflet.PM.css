@@ -141,7 +141,7 @@
 
 .button-container .leaflet-pm-actions-container .leaflet-pm-action:last-child {
   border-radius: 0px 3px 3px 0px;
-  border-right: 0px;
+  border-bottom: 1px solid #eee;
 }
 .button-container .leaflet-pm-actions-container .leaflet-pm-action {
   padding: 0px 10px;

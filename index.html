@@ -39,7 +39,7 @@
 		}
 		#map{
 			width: 100%;
-			height: calc(100vh - 50px);
+			height: calc(100vh - 52px);
 		}
 	</style>
 </head>
@@ -51,8 +51,18 @@
 				<div class="navigation">
 					<input type="text" placeholder="X" name="coord-x" id="coord-x">
 					<input type="text" placeholder="Y" name="coord-y" id="coord-y">
-					<input type="text" placeholder="Z (optional)" name="coord-z" id="coord-z">
-					<input type="text" placeholder="Region (optional)" name="coord-r" id="coord-r">
+					<select name="coord-y" id="coord-region">
+						<option value="0">World Map</option>
+						<!--option value="?">Donwhang (1F)</option>
+						<option value="?">Donwhang (2F)</option>
+						<option value="?">Donwhang (3F)</option>
+						<option value="?">Donwhang (4F)</option>
+						<option value="?">Jangan (B1)</option>
+						<option value="?">Jangan (B2)</option>
+						<option value="?">Jangan (B3)</option>
+						<option value="?">Jangan (B4)</option>
+						<option value="?">Jangan (B5)</option-->
+					</select>
 					<button class="btn" onclick="go();">Go</button>
 				</div>
 				<div class="links">
@@ -67,19 +77,14 @@
 	<script type="text/javascript" src="js/leaflet/Leaflet.Easy-Button.js"></script>
 	<script type="text/javascript" src="js/map.js"></script>
 	<script type="text/javascript">
-		// start view at Jangan
-		SilkroadMap.init('map',6464,1088);
-		function go() {
+		// start view at Hotan
+		SilkroadMap.init('map');
+		function go(){
 			var cx = parseInt(document.getElementById('coord-x').value);
 			var cy = parseInt(document.getElementById('coord-y').value);
-			var cz = parseInt(document.getElementById('coord-z').value);
-			var cr = parseInt(document.getElementById('coord-r').value);
-			if(cx && cy){
-				if(cz && cr){
-					SilkroadMap.MovePointer(cx,cy,cz,cr);
-				}else{
-					SilkroadMap.MovePointer(cx,cy);
-				}
+			var cr = parseInt(document.getElementById('coord-region').value);
+			if(cx+'' != 'NaN' && cy+'' != 'NaN'){
+				SilkroadMap.MovePointer(cx,cy,0,cr);
 			}
 		}
 	</script>

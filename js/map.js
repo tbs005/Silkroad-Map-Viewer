@@ -4,6 +4,8 @@ L.Marker.addInitHook(function(){
 		// setup virtualization after marker was added
 		this.on('add',function(){
 			this._updateIconVisibility = function() {
+				if(this._map == null)
+					return;
 				var map = this._map,
 				isVisible = map.getBounds().contains(this.getLatLng()),
 				wasVisible = this._wasVisible,
@@ -186,12 +188,20 @@ var SilkroadMap = function(){
 			"Sanmok":["Specialty Trader",151,90,0,0],
 			"Asaman":["Merchant Associate",157,83,0,0],
 			"Salihap":["Stable-Keeper",154,-5,0,0],
+			"Ahmok":["Hunter Associate",224,155,0,0],
+			"Musai":["Guild Manager",114,442,0,0],
 			"Baoman":["Soldier",317,53,0,0],
 			"Makhan":["Soldier",317,43,0,0],
-			//"Rahan":["Boat Ticket Seller",1079,-60,0,0,"ferry","Tarim North Ferry",1456,-18,0,0],
-			//"Salmai":["Boat Ticket Seller",1456,-18,0,0,"ferry","Hotan North Ferry",1079,-60,0,0],
-			//"Rahan":["Boat Ticket Seller",1079,-60,0,0,"ferry","Tarim North Ferry",1456,-18,0,0],
-			//"Salmai":["Boat Ticket Seller",1456,-18,0,0,"ferry","Hotan North Ferry",1079,-60,0,0],
+			"Wulan":["Soldier",-85,52,0,0],
+			"Batu":["Soldier",-85,42,0,0],
+			"Pao":["Soldier",119,353,0,0],
+			"Tuolan":["Soldier",109,353,0,0],
+			"Duyun":["Soldier",119,-155,0,0],
+			"Leihan":["Soldier",109,-155,0,0],
+			"Rahan":["Boat Ticket Seller",1079,-60,0,0,"ferry","Tarim North Ferry",1568,-18,0,0],
+			"Salmai":["Boat Ticket Seller",1568,-18,0,0,"ferry","Hotan North Ferry",1079,-60,0,0],
+			"Asimo":["Boat Ticket Seller",1124,-309,0,0,"ferry","Tarim South Ferry",1563,-269,0,0],
+			"Asa":["Boat Ticket Seller",1563,-269,0,0,"ferry","Hotan South Ferry",1124,-309,0,0],
 			"Asui":["Tunnel Manager",-1905,1981,0,0,"ferry","Central Asia Northeast Tunnel",-2761,2678,0,0],
 			"Topni":["Tunnel Manager",-2761,2678,0,0,"ferry","Taklamakan Nortwest Tunnel",-1905,1981,0,0],
 			"Salhap":["Tunnel Manager",-2731,2104,0,0,"ferry","Taklamakan Southwest Tunnel",-1902,1387,0,0],
@@ -426,7 +436,7 @@ var SilkroadMap = function(){
 	};
 	// Convert a Silkroad Coord to Map CRS
 	var SilkroadToMap = function (x,y,z=0,region=0){
-		// Scale approx. & DumbFix
+		// DumbFix
 		x = x*0.007324;
 		y += Math.pow(y,2)/(25600);
 		y = y*0.0052375;
@@ -434,14 +444,14 @@ var SilkroadMap = function(){
 		switch(map_layer){
 			case map_layer_world:
 			x += 9.85;
-			y += -45.081;
+			y += -45.085;
 			break;
 			case map_layer_donwhang_1f:
 			x+=178.5;
 			y+=-0.16;
 			break;
 			case map_layer_jangan_b1:
-			x+=170.13;
+			x+=170.15;
 			y+=-6;
 			break;
 		}
@@ -454,18 +464,18 @@ var SilkroadMap = function(){
 		switch(map_layer){
 			case map_layer_world:
 			lng -= 9.85;
-			lat -= -45.081;
+			lat -= -45.085;
 			break;
 			case map_layer_donwhang_1f:
 			lng-=178.5;
 			lat-=-0.16;
 			break;
 			case map_layer_jangan_b1:
-			lng-=170.13;
+			lng-=170.15;
 			lat-=-6;
 			break;
 		}
-		// Scale & reverse DumbFix
+		// Inverse DumbFix
 		lng = lng/0.007324;
 		lat = lat/0.0052375;
 		lat = 160*((Math.pow(lat+6400,1/2)) - 80);
@@ -563,9 +573,11 @@ var SilkroadMap = function(){
 					onClick: function(){
 						var textFile = "";
 						for (var shape in map_shapes){
-							textFile += shape+"(s):\n";
 							var i = 1;
 							for (var id in map_shapes[shape]){
+								if(i==1){
+									textFile += shape+"(s):\n";
+								}
 								textFile += (i++)+")\n";
 								switch(shape){
 									case "Line":
@@ -578,7 +590,7 @@ var SilkroadMap = function(){
 										}
 										q = p;
 									}
-									textFile += "Travel distance:"+d;
+									textFile += "Travel distance:"+d+"\n";
 									break;
 									case "Circle":
 										var p = MapToSilkroad(map_shapes[shape][id]._latlng.lat,map_shapes[shape][id]._latlng.lng);
@@ -593,7 +605,9 @@ var SilkroadMap = function(){
 									break;
 								}
 							}
-							textFile+= "\n";
+							if (i>1){
+								textFile+= "\n";
+							}
 						}
 						ToClipboard(textFile);
 					}
