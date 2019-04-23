@@ -86,16 +86,16 @@ var SilkroadMap = function(){
 			attribution: '<a href="#">Cave Donwhang [4F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b1 = L.tileLayer(b_url+'d/qt_a01_floor01_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Jangan [B1]</a>',center:{'x':23232,'y':-0.09},region:-32761,scale:1.4,
+			attribution: '<a href="#">Underground Level 1 of Tomb of Qui-Shin [B1]</a>',center:{'x':23232,'y':-0.09},region:-32761,scale:1.4,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b2 = L.tileLayer(b_url+'d/qt_a01_floor02_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Jangan [B2]</a>',center:{'x':23424,'y':-0.09},region:-32762,scale:1.4,
+			attribution: '<a href="#">Underground Level 2 of Tomb of Qui-Shin [B2]</a>',center:{'x':23424,'y':-0.09},region:-32762,scale:1.4,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b3 = L.tileLayer(b_url+'d/qt_a01_floor03_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Jangan [B3]</a>',center:{'x':23664,'y':-0.9},region:-32763,scale:1.4,
+			attribution: '<a href="#">Underground Level 3 of Tomb of Qui-Shin [B3]</a>',center:{'x':23616,'y':-0.9},region:-32763,scale:1.4,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b4 = L.tileLayer(b_url+'d/qt_a01_floor04_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Jangan [B4]</a>',center:{'x':23808,'y':-0.45},region:-32764,scale:1.4,
+			attribution: '<a href="#">Underground Level 4 of Tomb of Qui-Shin [B4]</a>',center:{'x':23808,'y':-0.45},region:-32764,scale:1.4,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_NPCs={
 		"map_layer_world":{
@@ -121,7 +121,7 @@ var SilkroadMap = function(){
 			"Jingyo":["Soldier",6429,962,0,0],
 			"Fengil":["Soldier",6429,1150,0,0],
 			"Choiyoung":["Soldier",6437,1150,0,0],
-			"Jangan Cave":["",7200,2104,0,0,"dungeon","Jangan [B1]",-23232,-324,0,-32761],
+			"Qui-Shin Tomb":["",7200,2104,0,0,"dungeon","Underground Level 1 of Tomb of Qui-Shin [B1]",-23232,-324,0,-32761],
 			"CONSTANTINOPLE":["",-10683,2583,0,0,"main_gate","Samarkand",-5185,2895,0,0],
 			"Sikeulro":["Inn Master",-10618,2580,0,0],
 			"Retaldi":["Nun",-10617,2635,0,0],
@@ -228,12 +228,12 @@ var SilkroadMap = function(){
 			"Teleport":["",-24278,-88,0,-32767,"tel","Donwhang",2471,2691,0,0]
 		},
 		"map_layer_jangan_b1":{
-			"Teleport [1]":["",-23232,-324,0,-32761,"tel","Jangan",7200,2104,0,0],
-			"Teleport [2]":["",-23232,660,0,-32761,"tel","Jangan [B2]",-24815,559,0,-32762],
+			"Teleport [1]":["",-23232,-324,0,-32761,"tel","Qui-Shin Tomb Exit",7200,2104,0,0],
+			"Teleport [2]":["Audience Chamber",-23232,660,0,-32761,"tel","Military Camp 1 [B2]",-24815,559,0,-32762],
 		},
 		"map_layer_jangan_b2":{
-			"Teleport [1]":["",-24815,559,0,-32762,"tel","Jangan [B1]",-23232,660,0,-32761],
-			"Teleport [2]":["",-24459,559,0,-32762,"tel","Teleport [3]",-24273,559,0,-32762],
+			"Teleport [1]":["Military Camp 1",-24815,559,0,-32762,"tel","Audience Chamber [B1]",-23232,660,0,-32761],
+			"Teleport [2]":["Military Camp 1",-24459,559,0,-32762,"tel","Teleport [3]",-24273,559,0,-32762],
 			"Teleport [3]":["",-24273,559,0,-32762,"tel","Teleport [2]",-24459,559,0,-32762],
 			"Teleport [4]":["",-24029,326,0,-32762,"tel"],
 			"Teleport [5]":["",-24204,-2,0,-32762,"tel"],
@@ -243,12 +243,14 @@ var SilkroadMap = function(){
 			"Teleport [9]":["",-23255,-588,0,-32762,"tel"],
 			"Teleport [10]":["",-22631,-581,0,-32762,"tel"],
 			"Teleport [11]":["",-21979,-582,0,-32762,"tel"],
-			"Teleport [12]":["",-21441,-581,0,-32762,"tel","Jangan [B3]",0,0,0,-32763],
+			"Teleport [12]":["Military Camp 16",-21441,-581,0,-32762,"tel","Central Cave [B3]",-23568,95,0,-32763],
 		},
 		"map_layer_jangan_b3":{
-			"Teleport [1]":["",-24815,559,0,-32762,"tel","Jangan [B1]",-23232,660,0,-32761],
+			"Teleport [1]":["Central Cave",-23568,95,0,-32763,"tel","Military Camp 16 [B2]",-21441,-581,0,-32762],
+			"Teleport [2]":["South Snake Cave (Re)",-25557,-1605,0,-32763,"tel","Southwest Snake Room (Ki) [B4]",-25632,-1436,0,-32764],
 		},
 		"map_layer_jangan_b4":{
+			"Teleport [1]":["Southwest Snake Room (Ki)",-25632,-1436,0,-32764,"tel","South Snake Cave (Re) [B3]",-25557,-1605,0,-32763],
 		}
 		};
 	};
@@ -471,7 +473,10 @@ var SilkroadMap = function(){
 					break;
 					case "tel":
 					npc_icon = obj_tp_tel;
-					npc_name = "";
+					if(layer_npcs[key][0] != "")
+						npc_name = '<div class="npc">'+layer_npcs[key][0]+'</div>';
+					else
+						npc_name = "";
 					npc_title = key;
 					break;
 				}
