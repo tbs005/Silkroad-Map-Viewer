@@ -12,8 +12,7 @@ Easiest way to explore the [Silkroad](http://www.joymax.com/silkroad/) world map
 
 #### Issues
 - Require add more NPC & Teleport locations
-- Cave maps not setup correctly yet (required to know all existing regions, still looking into it for an user friendly way to detect and select them)
-- Y coordinates slighly moved (Donwhang & Jangan)
+- Y coordinates slighly moved (Donwhang & Jangan only affected at the moment)
 ------------
 > ###### Thanks to [WarriorsWayOnline](http://warriorsway.eu/)  to provide some NPC & Teleport locations!
 > Made with <img title="Love" src="https://twemoji.maxcdn.com/2/72x72/1f499.png" width="18" height="18"> for GitHub. Pull if you want! <img title="JellyBitz" src="https://twemoji.maxcdn.com/2/72x72/1f575.png" width="18" height="18">

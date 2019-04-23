@@ -67,27 +67,37 @@ var SilkroadMap = function(){
 	var map_shapes_id = 0;
 	// Load all map layers
 	var initMapLayers = function (){
+		//var b_url = 'https://jellybitz.github.io/Silkroad-Map-Viewer/images/silkroad/minimap/';
 		var b_url = 'images/silkroad/minimap/';
 		// zoom = 2^8 = 256x256 tiles (enough at the moment)
 		map_layer_world = L.tileLayer(b_url+'{x}x{-y}.jpg',{
-			attribution: '<a href="http://silkroadonline.net/">Silkroad Map</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'}); 
+			attribution: '<a href="http://silkroadonline.net/">Silkroad Map</a>',center:{'x':1344,'y':-45.0844},region:0,scale:1,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'}); 
 		map_layer_donwhang_1f = L.tileLayer(b_url+'d/dh_a01_floor01_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Donwhang (1F)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+			attribution: '<a href="#">Cave Donwhang [1F]</a>',center:{'x':24378,'y':-0.16},region:-32767,scale:1,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_2f = L.tileLayer(b_url+'d/dh_a01_floor02_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Donwhang (2F)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+			attribution: '<a href="#">Cave Donwhang [2F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_3f = L.tileLayer(b_url+'d/dh_a01_floor03_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Donwhang (3F)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+			attribution: '<a href="#">Cave Donwhang [3F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_4f = L.tileLayer(b_url+'d/dh_a01_floor04_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Donwhang (4F)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+			attribution: '<a href="#">Cave Donwhang [4F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b1 = L.tileLayer(b_url+'d/qt_a01_floor01_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Jangan (1B)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+			attribution: '<a href="#">Cave Jangan [B1]</a>',center:{'x':23232,'y':-0.09},region:-32761,scale:1.4,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b2 = L.tileLayer(b_url+'d/qt_a01_floor02_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Jangan (2B)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+			attribution: '<a href="#">Cave Jangan [B2]</a>',center:{'x':23424,'y':-0.09},region:-32762,scale:1.4,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b3 = L.tileLayer(b_url+'d/qt_a01_floor03_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Jangan (3B)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+			attribution: '<a href="#">Cave Jangan [B3]</a>',center:{'x':23664,'y':-0.9},region:-32763,scale:1.4,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b4 = L.tileLayer(b_url+'d/qt_a01_floor04_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Jangan (4B)</a>',maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
-		map_layer_NPCs = {
+			attribution: '<a href="#">Cave Jangan [B4]</a>',center:{'x':23808,'y':-0.45},region:-32764,scale:1.4,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+		map_layer_NPCs={
 		"map_layer_world":{
 			/* NPC Format :
 			> "Name":["Title",x,y,z,r,Teleport Type?,Teleport?,x?,y?,z?,r?,Teleport??,x??,y??,z??,r??,...]
@@ -102,12 +112,16 @@ var SilkroadMap = function(){
 			"Ishyak":["Islam Merchant",6503,1018,0,0],
 			"Jodaesan":["Specialty Trader",6511,1007,0,0],
 			"Hwajung":["Merchant Associate",6511,995,0,0],
+			"Gwakwi":["Hunter Associate",6303,1192,0,0],
+			"Leebaek":["Guild Manager",6246,1209,0,0],
+			"Sonhyeon":["General",6202,1181,0,0],
 			"Flora":["Adventurer",6503,986,0,0],
+			"Jowi":["Soldier",6177,1144,0,0],
 			"Dangsam":["Soldier",6439,962,0,0],
 			"Jingyo":["Soldier",6429,962,0,0],
 			"Fengil":["Soldier",6429,1150,0,0],
 			"Choiyoung":["Soldier",6437,1150,0,0],
-			"Jangan Cave":["",7203,2027,0,0,"dungeon","Jangan (1B)",-23232,642,0,0,],
+			"Jangan Cave":["",7200,2104,0,0,"dungeon","Jangan [B1]",-23232,-324,0,-32761],
 			"CONSTANTINOPLE":["",-10683,2583,0,0,"main_gate","Samarkand",-5185,2895,0,0],
 			"Sikeulro":["Inn Master",-10618,2580,0,0],
 			"Retaldi":["Nun",-10617,2635,0,0],
@@ -162,6 +176,7 @@ var SilkroadMap = function(){
 			"Hyeon":["Buddhist Priest",3596,2237,0,0],
 			"Honmusa":["",3501,1966,0,0],
 			"Baekako":["",3491,1966,0,0],
+			"Donwhang Cave":["",2471,2691,0,0,"dungeon","Donwhang [1F]",-24278,-88,0,-32767],
 			"SAMARKAND":["",-5185,2890,0,0,"main_gate","Constantinople",-10684,2586,0,0,"Hotan",113,49,0,0],
 			"Saesa":["Storage-Keeper",-5128,2801,0,0],
 			"Martel":["Nun",-5234,2872,0,0],
@@ -208,13 +223,32 @@ var SilkroadMap = function(){
 			"Maryokuk":["Tunnel Manager",-1902,1387,0,0,"ferry","Central Asia Southeast Tunnel",-2731,2104,0,0],
 			"ALEXANDRIA NORTH":["",-16151,74,0,0,"main_gate","Alexandria (S)",-16645,-272,0,0,"Hotan",113,49,0,0],
 			"ALEXANDRIA SOUTH":["",-16645,-272,0,0,"main_gate","Alexandria (N)",-16151,74,0,0,"Hotan",113,49,0,0],
-			},
-		"map_layer_jangan_b1":{
-			"Jangan Teleport (1)":["",-23232,642,0,0,"tel","Jangan",7203,2027,0,0],
-			"Jangan Teleport (2)":["",-23232,1932,0,0,"tel","Jangan (2B)",7203,2027,0,0],
 		},
 		"map_layer_donwhang_1f":{
-			"Donwhang Teleport (1)":["",-24278,-88,0,0,"tel","Donwhang",2471,2691,0,0]
+			"Teleport":["",-24278,-88,0,-32767,"tel","Donwhang",2471,2691,0,0]
+		},
+		"map_layer_jangan_b1":{
+			"Teleport [1]":["",-23232,-324,0,-32761,"tel","Jangan",7200,2104,0,0],
+			"Teleport [2]":["",-23232,660,0,-32761,"tel","Jangan [B2]",-24815,559,0,-32762],
+		},
+		"map_layer_jangan_b2":{
+			"Teleport [1]":["",-24815,559,0,-32762,"tel","Jangan [B1]",-23232,660,0,-32761],
+			"Teleport [2]":["",-24459,559,0,-32762,"tel","Teleport [3]",-24273,559,0,-32762],
+			"Teleport [3]":["",-24273,559,0,-32762,"tel","Teleport [2]",-24459,559,0,-32762],
+			"Teleport [4]":["",-24029,326,0,-32762,"tel"],
+			"Teleport [5]":["",-24204,-2,0,-32762,"tel"],
+			"Teleport [6]":["",-24631,-170,0,-32762,"tel"],
+			"Teleport [7]":["",-24399,-581,0,-32762,"tel"],
+			"Teleport [8]":["",-23858,-581,0,-32762,"tel"],
+			"Teleport [9]":["",-23255,-588,0,-32762,"tel"],
+			"Teleport [10]":["",-22631,-581,0,-32762,"tel"],
+			"Teleport [11]":["",-21979,-582,0,-32762,"tel"],
+			"Teleport [12]":["",-21441,-581,0,-32762,"tel","Jangan [B3]",0,0,0,-32763],
+		},
+		"map_layer_jangan_b3":{
+			"Teleport [1]":["",-24815,559,0,-32762,"tel","Jangan [B1]",-23232,660,0,-32761],
+		},
+		"map_layer_jangan_b4":{
 		}
 		};
 	};
@@ -249,6 +283,7 @@ var SilkroadMap = function(){
 	};
 	// Add clickable objects to the layer selected
 	var addMapObjects = function(layer){
+		// b_url = 'https://jellybitz.github.io/Silkroad-Map-Viewer/images/silkroad/minimap/icon/';
 		var b_url = 'images/silkroad/minimap/icon/';
 		// define common sizes
 		var obj_npc = new L.Icon({
@@ -325,11 +360,11 @@ var SilkroadMap = function(){
 			popupAnchor:[0,0]
 		});
 		// Filter layer objects
-		layer_npcs = []
+		layer_npcs = [];
 		switch(layer){
 			case map_layer_world:
 			// Select NPC's from layer
-			layer_npcs = map_layer_NPCs["map_layer_world"];
+			layer_npcs = map_layer_NPCs.map_layer_world;
 			// Adding house icons
 			// Jangan
 			addMarker(obj_npc_weapon,'Blacksmith',6357,1097);
@@ -379,15 +414,33 @@ var SilkroadMap = function(){
 			addMarker(obj_npc_guild,'Guild Storage',116,460);
 			addMarker(obj_npc_speciality,'Specialty Shop',171,96);
 			addMarker(obj_npc_hunter,'Hunter Association',216,143);
-			
+
 			// in progress ...
 			
 			break;
 			case map_layer_jangan_b1:
-			layer_npcs = map_layer_NPCs["map_layer_jangan_b1"];
+			layer_npcs = map_layer_NPCs.map_layer_jangan_b1;
+			break;
+			case map_layer_jangan_b2:
+			layer_npcs = map_layer_NPCs.map_layer_jangan_b2;
+			break;
+			case map_layer_jangan_b3:
+			layer_npcs = map_layer_NPCs.map_layer_jangan_b3;
+			break;
+			case map_layer_jangan_b4:
+			layer_npcs = map_layer_NPCs.map_layer_jangan_b4;
 			break;
 			case map_layer_donwhang_1f:
-			layer_npcs = map_layer_NPCs["map_layer_donwhang_1f"];
+			layer_npcs = map_layer_NPCs.map_layer_donwhang_1f;
+			break;
+			case map_layer_donwhang_2f:
+			layer_npcs = map_layer_NPCs.map_layer_donwhang_2f;
+			break;
+			case map_layer_donwhang_3f:
+			layer_npcs = map_layer_NPCs.map_layer_donwhang_3f;
+			break;
+			case map_layer_donwhang_4f:
+			layer_npcs = map_layer_NPCs.map_layer_donwhang_4f;
 			break;
 		}
 		// Load all NPC's & Teleports from layer
@@ -436,68 +489,48 @@ var SilkroadMap = function(){
 	};
 	// Convert a Silkroad Coord to Map CRS
 	var SilkroadToMap = function (x,y,z=0,region=0){
-		// DumbFix
-		x = x*0.007324;
-		y += Math.pow(y,2)/(25600);
-		y = y*0.0052375;
-		// Map center (approx)
-		switch(map_layer){
-			case map_layer_world:
-			x += 9.85;
-			y += -45.085;
-			break;
-			case map_layer_donwhang_1f:
-			x+=178.5;
-			y+=-0.16;
-			break;
-			case map_layer_jangan_b1:
-			x+=170.15;
-			y+=-6;
-			break;
-		}
+		// Map center [X]
+		x+=map_layer.options.center.x;
+		// Scale & DumbFix
+		x=x*1.406208/192;
+		y+=Math.pow(y,2)/(25600);
+		y=y*0.0052375;
+		// Map center [Y] (approx)
+		y=y*map_layer.options.scale;
+		y+=map_layer.options.center.y;
 		return [y,x];
 	};
 	// Convert Map LatLng to Silkroad coords
 	var MapToSilkroad = function (lat,lng){
-		var z = 0,r = 0;
-		// Map center (approx)
-		switch(map_layer){
-			case map_layer_world:
-			lng -= 9.85;
-			lat -= -45.085;
-			break;
-			case map_layer_donwhang_1f:
-			lng-=178.5;
-			lat-=-0.16;
-			break;
-			case map_layer_jangan_b1:
-			lng-=170.15;
-			lat-=-6;
-			break;
-		}
-		// Inverse DumbFix
-		lng = lng/0.007324;
+		var z=0,r;
+		// Map center [Y] (approx)
+		lat-=map_layer.options.center.y;
+		lat=lat/map_layer.options.scale;
+		// Scale & Inverse DumbFix
+		lng = lng/1.406208*192;
 		lat = lat/0.0052375;
 		lat = 160*((Math.pow(lat+6400,1/2)) - 80);
+		// Map center [X]
+		lng-=map_layer.options.center.x;
+		r=map_layer.options.region;
 		return [lng,lat,z,r];
 	};
 	// All data about detect the dungeon is calculated here
 	var getLayer = function (x,y,z,region){
-		// Just leaving this here for the future!
-		if(region & 0x8000){ // it's in dungeon
-
-		}
-		// Using this at the moment because I don't know the regions values
-		var xPosition = (x % 192) * 10;
-		var yPosition = (y % 192) * 10;
-		var xSector = (x - xPosition / 10) / 192 + 135;
-		var ySector = (y - yPosition / 10) / 192 + 92;
-		if(xSector < 26){
-			if (xSector >= 7 && xSector <= 9){
-				return map_layer_donwhang_1f;
-			}
-			if(xSector >= 12 && xSector <= 16){
-				return map_layer_jangan_b1;
+		// it's in cave
+		if(region & 0x8000){
+			region = 32768 + region;
+			switch(region){
+				case 1: // Not sure really
+					return map_layer_donwhang_1f;
+				case 7:
+					return map_layer_jangan_b1;
+				case 6:
+					return map_layer_jangan_b2;
+				case 5:
+					return map_layer_jangan_b3;
+				case 4:
+					return map_layer_jangan_b4;
 			}
 		}
 		return map_layer_world;
@@ -506,6 +539,7 @@ var SilkroadMap = function(){
 	var addMapCharacter = function (layer){
 		// draw character if is at the same layer
 		if(map_marker_char_pos){
+			// var b_url = 'https://jellybitz.github.io/Silkroad-Map-Viewer/images/silkroad/minimap/icon/';
 			var b_url = 'images/silkroad/minimap/icon/';
 			var obj_char = new L.Icon({
 				iconUrl: b_url+'character.png',
@@ -535,8 +569,7 @@ var SilkroadMap = function(){
 		map.flyTo(SilkroadToMap(x,y,z,r),8);
 	};
 	// Copy text to clipboard
-	var ToClipboard = function(text) {
-		console.log(text);
+	var ToClipboard = function(text){
 		var e = document.createElement('textarea');
 		e.value = text;
 		document.body.appendChild(e);
@@ -674,8 +707,8 @@ var SilkroadMap = function(){
 					map_shapes[f.target.shapeType][f.target.shapeId] = f.target;
 				});
 			});
-			map.on('pm:remove',function(e){
-				delete map_shapes[e.layer.shapeType][e.layer.shapeId];
+			map.on('pm:remove',function(f){
+				delete map_shapes[f.layer.shapeType][f.layer.shapeId];
 			});
 			// load layers
 			initMapLayers();
