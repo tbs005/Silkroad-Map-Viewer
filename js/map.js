@@ -74,16 +74,16 @@ var SilkroadMap = function(){
 			attribution: '<a href="http://silkroadonline.net/">Silkroad Map</a>',center:{'x':1344,'y':-45.0844},region:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'}); 
 		map_layer_donwhang_1f = L.tileLayer(b_url+'d/dh_a01_floor01_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Donwhang [1F]</a>',center:{'x':24378,'y':-0.16},region:-32767,scale:1,
+			attribution: '<a href="#">Donwhang Stone Cave [1F]</a>',center:{'x':24378,'y':-0.16},region:-32767,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_2f = L.tileLayer(b_url+'d/dh_a01_floor02_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Donwhang [2F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			attribution: '<a href="#">Donwhang Stone Cave [2F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_3f = L.tileLayer(b_url+'d/dh_a01_floor03_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Donwhang [3F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			attribution: '<a href="#">Donwhang Stone Cave [3F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_4f = L.tileLayer(b_url+'d/dh_a01_floor04_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Cave Donwhang [4F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			attribution: '<a href="#">Donwhang Stone Cave [4F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b1 = L.tileLayer(b_url+'d/qt_a01_floor01_{x}x{-y}.jpg',{
 			attribution: '<a href="#">Underground Level 1 of Tomb of Qui-Shin [B1]</a>',center:{'x':23232,'y':-0.09},region:-32761,scale:1.4,
@@ -176,7 +176,7 @@ var SilkroadMap = function(){
 			"Hyeon":["Buddhist Priest",3596,2237,0,0],
 			"Honmusa":["",3501,1966,0,0],
 			"Baekako":["",3491,1966,0,0],
-			"Donwhang Cave":["",2471,2691,0,0,"dungeon","Donwhang [1F]",-24278,-88,0,-32767],
+			"Donwhang Stone Cave":["",2471,2691,0,0,"dungeon","Donwhang Stone Cave [1F]",-24278,-88,0,-32767],
 			"SAMARKAND":["",-5185,2890,0,0,"main_gate","Constantinople",-10684,2586,0,0,"Hotan",113,49,0,0],
 			"Saesa":["Storage-Keeper",-5128,2801,0,0],
 			"Martel":["Nun",-5234,2872,0,0],
@@ -221,11 +221,12 @@ var SilkroadMap = function(){
 			"Topni":["Tunnel Manager",-2761,2678,0,0,"ferry","Taklamakan Nortwest Tunnel",-1905,1981,0,0],
 			"Salhap":["Tunnel Manager",-2731,2104,0,0,"ferry","Taklamakan Southwest Tunnel",-1902,1387,0,0],
 			"Maryokuk":["Tunnel Manager",-1902,1387,0,0,"ferry","Central Asia Southeast Tunnel",-2731,2104,0,0],
+			"Gate of Ruler":["",-4608,0,0,0,"tahomet_gate"],
 			"ALEXANDRIA NORTH":["",-16151,74,0,0,"main_gate","Alexandria (S)",-16645,-272,0,0,"Hotan",113,49,0,0],
 			"ALEXANDRIA SOUTH":["",-16645,-272,0,0,"main_gate","Alexandria (N)",-16151,74,0,0,"Hotan",113,49,0,0],
 		},
 		"map_layer_donwhang_1f":{
-			"Teleport":["",-24278,-88,0,-32767,"tel","Donwhang",2471,2691,0,0]
+			"Teleport":["",-24278,-88,0,-32767,"tel","DonWhang cave Exit",2471,2691,0,0]
 		},
 		"map_layer_jangan_b1":{
 			"Teleport [1]":["",-23232,-324,0,-32761,"tel","Qui-Shin Tomb Exit",7200,2104,0,0],
@@ -465,11 +466,18 @@ var SilkroadMap = function(){
 					break;
 					case "gate":
 					npc_icon = obj_tp_gate;
+					npc_title = key;
+					npc_name = "";
+					break;
+					case "tahomet_gate":
+					npc_icon = obj_tp_tahomet_gate;
+					npc_title = key;
+					npc_name = "";
 					break;
 					case "dungeon":
 					npc_icon = obj_tp_dungeon;
-					npc_name = "";
 					npc_title = key;
+					npc_name = "";
 					break;
 					case "tel":
 					npc_icon = obj_tp_tel;
@@ -507,7 +515,7 @@ var SilkroadMap = function(){
 	};
 	// Convert Map LatLng to Silkroad coords
 	var MapToSilkroad = function (lat,lng){
-		var z=0,r;
+		var z=0;
 		// Map center [Y] (approx)
 		lat-=map_layer.options.center.y;
 		lat=lat/map_layer.options.scale;
@@ -517,8 +525,7 @@ var SilkroadMap = function(){
 		lat = 160*((Math.pow(lat+6400,1/2)) - 80);
 		// Map center [X]
 		lng-=map_layer.options.center.x;
-		r=map_layer.options.region;
-		return [lng,lat,z,r];
+		return [lng,lat,z,map_layer.options.region];
 	};
 	// All data about detect the dungeon is calculated here
 	var getLayer = function (x,y,z,region){
@@ -593,7 +600,7 @@ var SilkroadMap = function(){
 				states:[{
 					icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" style="vertical-align:middle"><path fill="#333" d="M444.52 3.52L28.74 195.42c-47.97 22.39-31.98 92.75 19.19 92.75h175.91v175.91c0 51.17 70.36 67.17 92.75 19.19l191.9-415.78c15.99-38.39-25.59-79.97-63.97-63.97z"/></svg>',
 					title: 'Back to Your Position',
-					onClick: function(){
+					dblclick: function(){
 						if(map_marker_char){
 							var p = map_marker_char_pos;
 							MoveTo(p[0],p[1],p[2],p[3]);
@@ -622,6 +629,8 @@ var SilkroadMap = function(){
 									var d = 0, q = null;
 									for (var j = 0; j < map_shapes[shape][id]._latlngs.length; j++){
 										var p = MapToSilkroad(map_shapes[shape][id]._latlngs[j].lat,map_shapes[shape][id]._latlngs[j].lng);
+										if(p[3]) // Cave
+											textFile += "Region:"+p[3]+",";
 										textFile += "X:"+Math.round(p[0])+",Y:"+Math.round(p[1])+",Z:"+Math.round(p[2])+"\n";
 										if(q){ // skip the first point
 											d += Math.sqrt(Math.pow(Math.round(p[0])-Math.round(q[0]),2)+Math.pow(Math.round(p[1])-Math.round(q[1]),2)+Math.pow(Math.round(p[2])-Math.round(q[2]),2));
@@ -632,12 +641,16 @@ var SilkroadMap = function(){
 									break;
 									case "Circle":
 										var p = MapToSilkroad(map_shapes[shape][id]._latlng.lat,map_shapes[shape][id]._latlng.lng);
+										if(p[3])
+											textFile += "Region:"+p[3]+",";
 										textFile += "X:"+Math.round(p[0])+",Y:"+Math.round(p[1])+",Z:"+Math.round(p[2])+"\n";
 										textFile += "Radius:"+Math.round(map_shapes[shape][id]._radius*37/49.3)+"\n"; // A bit unprecised but enought at the moment
 									break;
 									case "Poly":
 									for (var j = 0; j < map_shapes[shape][id]._latlngs[0].length; j++){
 										var p = MapToSilkroad(map_shapes[shape][id]._latlngs[0][j].lat,map_shapes[shape][id]._latlngs[0][j].lng);
+										if(p[3])
+											textFile += "Region:"+p[3]+",";
 										textFile += "X:"+Math.round(p[0])+",Y:"+Math.round(p[1])+",Z:"+Math.round(p[2])+"\n";
 									}
 									break;
@@ -692,9 +705,11 @@ var SilkroadMap = function(){
 				}]
 			}).addTo(map);
 			// show coords at clicking
-			map.on('click', function (e){
-				var c = MapToSilkroad(e.latlng.lat,e.latlng.lng);
-				c = 'X:'+Math.round(c[0])+' Y:'+Math.round(c[1]);
+			map.on('dblclick', function (e){
+				var p = MapToSilkroad(e.latlng.lat,e.latlng.lng);
+				var c = 'X:'+Math.round(p[0])+' Y:'+Math.round(p[1]);
+				if(p[3] != 0)
+					c+='<br>Z:'+p[2]+' Region:'+p[3];
 				//c += '<br>LAT:'+e.latlng.lat+' LNG:'+e.latlng.lng;
 				L.popup().setLatLng(e.latlng).setContent(c).openOn(map);
 			});
