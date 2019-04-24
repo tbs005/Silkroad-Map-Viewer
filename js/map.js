@@ -59,7 +59,10 @@ var SilkroadMap = function(){
 	map_layer_jangan_b1,
 	map_layer_jangan_b2,
 	map_layer_jangan_b3,
-	map_layer_jangan_b4;
+	map_layer_jangan_b4,
+	map_layer_jangan_b5,
+	map_layer_jangan_b6,
+	map_layer_jobtemple_1;
 	// NPC's locations by layer
 	var map_layer_NPCs;
 	// Shapes at the map
@@ -71,31 +74,40 @@ var SilkroadMap = function(){
 		var b_url = 'images/silkroad/minimap/';
 		// zoom = 2^8 = 256x256 tiles (enough at the moment)
 		map_layer_world = L.tileLayer(b_url+'{x}x{-y}.jpg',{
-			attribution: '<a href="http://silkroadonline.net/">Silkroad Map</a>',center:{'x':1344,'y':-45.0844},region:0,scale:1,
+			attribution: '<a href="http://silkroadonline.net/">Silkroad Map</a>',center:{'x':1344,'y':-45.0844},region:0,z:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'}); 
 		map_layer_donwhang_1f = L.tileLayer(b_url+'d/dh_a01_floor01_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Donwhang Stone Cave [1F]</a>',center:{'x':24378,'y':-0.16},region:-32767,scale:1,
+			attribution: '<a href="#">Donwhang Stone Cave [1F]</a>',center:{'x':24378,'y':-0.16},region:-32767,z:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_2f = L.tileLayer(b_url+'d/dh_a01_floor02_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Donwhang Stone Cave [2F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			attribution: '<a href="#">Donwhang Stone Cave [2F]</a>',center:{'x':24378,'y':-0.16},region:-32767,z:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_3f = L.tileLayer(b_url+'d/dh_a01_floor03_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Donwhang Stone Cave [3F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			attribution: '<a href="#">Donwhang Stone Cave [3F]</a>',center:{'x':24378,'y':-0.16},region:-32767,z:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_donwhang_4f = L.tileLayer(b_url+'d/dh_a01_floor04_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Donwhang Stone Cave [4F]</a>',center:{'x':24378,'y':-0.16},region:0,scale:1,
+			attribution: '<a href="#">Donwhang Stone Cave [4F]</a>',center:{'x':24378,'y':-0.16},region:-32767,z:0,scale:1,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b1 = L.tileLayer(b_url+'d/qt_a01_floor01_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Underground Level 1 of Tomb of Qui-Shin [B1]</a>',center:{'x':23232,'y':-0.09},region:-32761,scale:1.4,
+			attribution: '<a href="#">Underground Level 1 of Tomb of Qui-Shin [B1]</a>',center:{'x':23232,'y':-0.09},region:-32761,z:0,scale:1.4,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b2 = L.tileLayer(b_url+'d/qt_a01_floor02_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Underground Level 2 of Tomb of Qui-Shin [B2]</a>',center:{'x':23424,'y':-0.09},region:-32762,scale:1.4,
+			attribution: '<a href="#">Underground Level 2 of Tomb of Qui-Shin [B2]</a>',center:{'x':23424,'y':-0.09},region:-32762,z:0,scale:1.4,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b3 = L.tileLayer(b_url+'d/qt_a01_floor03_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Underground Level 3 of Tomb of Qui-Shin [B3]</a>',center:{'x':23616,'y':-0.9},region:-32763,scale:1.4,
+			attribution: '<a href="#">Underground Level 3 of Tomb of Qui-Shin [B3]</a>',center:{'x':23616,'y':-0.9},region:-32763,z:0,scale:1.4,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_jangan_b4 = L.tileLayer(b_url+'d/qt_a01_floor04_{x}x{-y}.jpg',{
-			attribution: '<a href="#">Underground Level 4 of Tomb of Qui-Shin [B4]</a>',center:{'x':23808,'y':-0.45},region:-32764,scale:1.4,
+			attribution: '<a href="#">Underground Level 4 of Tomb of Qui-Shin [B4]</a>',center:{'x':23808,'y':-0.45},region:-32764,z:0,scale:1.4,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+		map_layer_jangan_b5 = L.tileLayer(b_url+'d/qt_a01_floor05_{x}x{-y}.jpg',{
+			attribution: '<a href="#">Underground Level 5 of Tomb of Qui-Shin [B5]</a>',center:{'x':24000,'y':-0.45},region:-32765,z:0,scale:1.4,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+		map_layer_jangan_b6 = L.tileLayer(b_url+'d/qt_a01_floor06_{x}x{-y}.jpg',{
+			attribution: '<a href="#">Underground Level 6 of Tomb of Qui-Shin [B6]</a>',center:{'x':24192,'y':-0.45},region:-32766,z:0,scale:1.4,
+			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
+		map_layer_jobtemple_1 = L.tileLayer(b_url+'d/rn_sd_egypt1_01_{x}x{-y}.jpg',{
+			attribution: '<a href="#">Job Temple</a>',center:{'x':24192,'y':-0.45},region:-32752,z:0,scale:1.4,
 			maxZoom:8,minZoom:8,errorTileUrl:b_url+'0.jpg'});
 		map_layer_NPCs={
 		"map_layer_world":{
@@ -252,6 +264,12 @@ var SilkroadMap = function(){
 		},
 		"map_layer_jangan_b4":{
 			"Teleport [1]":["Southwest Snake Room (Ki)",-25632,-1436,0,-32764,"tel","South Snake Cave (Re) [B3]",-25557,-1605,0,-32763],
+		},
+		"map_layer_jangan_b5":{
+		},
+		"map_layer_jangan_b6":{
+		},
+		"map_layer_jobtemple_1":{
 		}
 		};
 	};
@@ -365,10 +383,10 @@ var SilkroadMap = function(){
 		// Filter layer objects
 		layer_npcs = [];
 		switch(layer){
-			case map_layer_world:
 			// Select NPC's from layer
-			layer_npcs = map_layer_NPCs.map_layer_world;
-			// Adding house icons
+			case map_layer_world:
+			layer_npcs=map_layer_NPCs.map_layer_world;
+			// Add house icons
 			// Jangan
 			addMarker(obj_npc_weapon,'Blacksmith',6357,1097);
 			addMarker(obj_npc_potion,'Drug Store',6513,1091);
@@ -422,28 +440,37 @@ var SilkroadMap = function(){
 			
 			break;
 			case map_layer_jangan_b1:
-			layer_npcs = map_layer_NPCs.map_layer_jangan_b1;
+			layer_npcs=map_layer_NPCs.map_layer_jangan_b1;
 			break;
 			case map_layer_jangan_b2:
-			layer_npcs = map_layer_NPCs.map_layer_jangan_b2;
+			layer_npcs=map_layer_NPCs.map_layer_jangan_b2;
 			break;
 			case map_layer_jangan_b3:
-			layer_npcs = map_layer_NPCs.map_layer_jangan_b3;
+			layer_npcs=map_layer_NPCs.map_layer_jangan_b3;
 			break;
 			case map_layer_jangan_b4:
-			layer_npcs = map_layer_NPCs.map_layer_jangan_b4;
+			layer_npcs=map_layer_NPCs.map_layer_jangan_b4;
+			break;
+			case map_layer_jangan_b5:
+			layer_npcs=map_layer_NPCs.map_layer_jangan_b5;
+			break;
+			case map_layer_jangan_b6:
+			layer_npcs=map_layer_NPCs.map_layer_jangan_b6;
 			break;
 			case map_layer_donwhang_1f:
-			layer_npcs = map_layer_NPCs.map_layer_donwhang_1f;
+			layer_npcs=map_layer_NPCs.map_layer_donwhang_1f;
 			break;
 			case map_layer_donwhang_2f:
-			layer_npcs = map_layer_NPCs.map_layer_donwhang_2f;
+			layer_npcs=map_layer_NPCs.map_layer_donwhang_2f;
 			break;
 			case map_layer_donwhang_3f:
-			layer_npcs = map_layer_NPCs.map_layer_donwhang_3f;
+			layer_npcs=map_layer_NPCs.map_layer_donwhang_3f;
 			break;
 			case map_layer_donwhang_4f:
-			layer_npcs = map_layer_NPCs.map_layer_donwhang_4f;
+			layer_npcs=map_layer_NPCs.map_layer_donwhang_4f;
+			break;
+			case map_layer_jobtemple_1:
+			layer_npcs=map_layer_NPCs.map_layer_jobtemple_1;
 			break;
 		}
 		// Load all NPC's & Teleports from layer
@@ -525,24 +552,37 @@ var SilkroadMap = function(){
 		lat = 160*((Math.pow(lat+6400,1/2)) - 80);
 		// Map center [X]
 		lng-=map_layer.options.center.x;
-		return [lng,lat,z,map_layer.options.region];
+		return [lng,lat,map_layer.options.z,map_layer.options.region];
 	};
 	// All data about detect the dungeon is calculated here
 	var getLayer = function (x,y,z,region){
 		// it's in cave
 		if(region & 0x8000){
-			region = 32768 + region;
 			switch(region){
-				case 1: // Not sure really
-					return map_layer_donwhang_1f;
-				case 7:
+				case -32752:
+					return map_layer_jobtemple_1;
+				case -32761:
 					return map_layer_jangan_b1;
-				case 6:
+				case -32762:
 					return map_layer_jangan_b2;
-				case 5:
+				case -32763:
 					return map_layer_jangan_b3;
-				case 4:
+				case -32764:
 					return map_layer_jangan_b4;
+				case -32765:
+					return map_layer_jangan_b5;
+				case -32766:
+					return map_layer_jangan_b6;
+				case -32767:
+					// Z VALUE UNDEFINED AT THE MOMENT
+					if(z >= 0 && z < 10){
+						return map_layer_donwhang_1f;
+					}else if (z >= 10 && z < 20) {
+						return map_layer_donwhang_2f;
+					}else if (z >= 20 && z < 30 ) {
+						return map_layer_donwhang_3f;
+					}
+					return map_layer_donwhang_4f;
 			}
 		}
 		return map_layer_world;
@@ -600,7 +640,7 @@ var SilkroadMap = function(){
 				states:[{
 					icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" style="vertical-align:middle"><path fill="#333" d="M444.52 3.52L28.74 195.42c-47.97 22.39-31.98 92.75 19.19 92.75h175.91v175.91c0 51.17 70.36 67.17 92.75 19.19l191.9-415.78c15.99-38.39-25.59-79.97-63.97-63.97z"/></svg>',
 					title: 'Back to Your Position',
-					dblclick: function(){
+					onClick: function(){
 						if(map_marker_char){
 							var p = map_marker_char_pos;
 							MoveTo(p[0],p[1],p[2],p[3]);
