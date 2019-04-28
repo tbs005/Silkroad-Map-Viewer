@@ -57,11 +57,17 @@ header .btn:hover{
 }
 header .links{
 	padding: 5px 10px;
-	display: block;
+	display: flex;
 }
 header .links a{
-	display: block;
+	text-align: center;
+	margin: 0 1px;
 	padding: 5px;
+	background-color: #333;
+}
+header .links a svg,
+header .links a img{
+	vertical-align: bottom;
 }
 @media screen and (max-width: 600px){
 	header .links{
