@@ -293,7 +293,7 @@ var SilkroadMap = function(){
 		if(!map_layer){
 			map_layer = layer;
 			map.addLayer(layer);
-			addMapObjects(layer);
+			addMapObjects();
 		}
 		// update character position
 		if(map_marker_char_pos){
@@ -303,7 +303,7 @@ var SilkroadMap = function(){
 		}
 	};
 	// Add clickable objects to the layer selected
-	var addMapObjects = function(layer){
+	var addMapObjects = function(){
 		// b_url = 'https://jellybitz.github.io/Silkroad-Map-Viewer/images/silkroad/minimap/icon/';
 		var b_url = 'images/silkroad/minimap/icon/';
 		// define common sizes
@@ -382,7 +382,7 @@ var SilkroadMap = function(){
 		});
 		// Filter layer objects
 		layer_npcs = [];
-		switch(layer){
+		switch(map_layer){
 			// Select NPC's from layer
 			case map_layer_world:
 			layer_npcs=map_layer_NPCs.map_layer_world;
@@ -525,7 +525,7 @@ var SilkroadMap = function(){
 	};
 	// Kind minify & friendly reduced
 	var addMarker = function(iconType,html,x,y,z=0,r=0){
-		L.marker(SilkroadToMap(x,y),{icon:iconType,pmIgnore:true,virtual:true}).bindPopup(html).addTo(map);
+		L.marker(SilkroadToMap(x,y,z,r),{icon:iconType,pmIgnore:true,virtual:true}).bindPopup(html).addTo(map);
 	};
 	// Convert a Silkroad Coord to Map CRS
 	var SilkroadToMap = function (x,y,z=0,region=0){
@@ -556,7 +556,7 @@ var SilkroadMap = function(){
 	};
 	// All data about detect the dungeon is calculated here
 	var getLayer = function (x,y,z,region){
-		// it's in cave
+		// it's in dungeon
 		if(region & 0x8000){
 			switch(region){
 				case -32752:
@@ -789,7 +789,8 @@ var SilkroadMap = function(){
 			map_marker_char_pos = [x,y,z,r];
 			FlyTo(x,y,z,r);
 		},
-		RemovePointer:function(x,y,z=0,r=0){
+		// Remove the main pointer/character
+		RemovePointer:function(){
 			map_marker_char_pos = null;
 			setMapLayer(map_layer);
 		}

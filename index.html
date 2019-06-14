@@ -85,20 +85,49 @@
 	<script type="text/javascript" src="js/leaflet/Leaflet.Easy-Button.js"></script>
 	<script type="text/javascript" src="js/map.js"></script>
 	<script type="text/javascript">
-		SilkroadMap.init('map');
-		function go(){
-			var cx = parseInt(document.getElementById('coord-x').value);
-			var cy = parseInt(document.getElementById('coord-y').value);
-			var cz = parseInt(document.getElementById('coord-z').value);
-			var cr = parseInt(document.getElementById('coord-region').value);
-			if(cx+'' != 'NaN' && cy+'' != 'NaN'){
-				if (cz+'' != 'NaN'){
-					SilkroadMap.MovePointer(cx,cy,cz,cr);
-				}else{
-					SilkroadMap.MovePointer(cx,cy,0,cr);
-				}
+	SilkroadMap.init('map');
+	window.onload = function() {
+		// GET inputs
+		var x = findGetParameter("x");
+		if(x != null)
+			document.getElementById('coord-x').value = x;
+		var y = findGetParameter("y");
+		if(y != null)
+			document.getElementById('coord-y').value = y;
+		var z = findGetParameter("z");
+		if(z != null)
+			document.getElementById('coord-z').value = z;
+		var region = findGetParameter("region");
+		if(region != null)
+			document.getElementById('coord-region').value = region;
+		if(x != null && y != null)
+			go();
+	};
+	// PHP GET params
+	function findGetParameter(parameterName) {
+		tmp = [];
+		var items = location.search.substr(1).split("&");
+		for (var i = 0; i < items.length; i++) {
+			tmp = items[i].split("=");
+			if (tmp[0] === parameterName)
+				return decodeURIComponent(tmp[1]);
+		}
+		return null;
+	}
+	// Search
+	function go(){
+		var cx = parseInt(document.getElementById('coord-x').value);
+		var cy = parseInt(document.getElementById('coord-y').value);
+		var cz = parseInt(document.getElementById('coord-z').value);
+		var cr = parseInt(document.getElementById('coord-region').value);
+		if(cx+'' != 'NaN' && cy+'' != 'NaN'){
+			if (cz+'' != 'NaN'){
+				SilkroadMap.MovePointer(cx,cy,cz,cr);
+			}else{
+				SilkroadMap.MovePointer(cx,cy,0,cr);
 			}
 		}
+	}
 	</script>
 </body>
 </html>
